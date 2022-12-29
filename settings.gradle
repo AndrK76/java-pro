@@ -1,0 +1,3 @@
+rootProject.name = 'andrkJava'
+include 'hw01-gradle'
+
