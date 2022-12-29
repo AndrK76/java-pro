@@ -5,17 +5,19 @@ plugins {
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 
 dependencies {
     implementation 'com.google.guava:guava'
 }
 
 shadowJar {
-    archiveBaseName.set('gradleHelloWorld')
+    archiveBaseName.set('gradleAndrkHelloOtus')
     archiveVersion.set('0.1')
     archiveClassifier.set('')
     manifest {
-        attributes 'Main-Class': 'ru.otus.App'
+        attributes 'Main-Class': 'ru.otus.andrk.HelloOtus'
     }
 }
 
