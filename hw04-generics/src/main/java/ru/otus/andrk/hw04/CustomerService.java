@@ -1,25 +1,39 @@
 package ru.otus.andrk.hw04;
 
 
-import ru.otus.andrk.hw04.Customer;
-
+import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
+
 
 public class CustomerService {
+    static class CustomerScoresComparator implements Comparator<Customer> {
+        @Override
+        public int compare(Customer o1, Customer o2) {
+            return Long.signum(o1.getScores() - o2.getScores());
+        }
+    }
 
-    //todo: 3. надо реализовать методы этого класса
-    //важно подобрать подходящую Map-у, посмотрите на редко используемые методы, они тут полезны
+    final TreeMap<Customer, String> map = new TreeMap<>(new CustomerScoresComparator());
+
+    //TODO: Как вариант была идея реализовать свой класс реализующий Map.Entry и в нём
+    //возвращать копию Customer, но кода писать больше
+    private Map.Entry<Customer, String> getCloneEntry(Map.Entry<Customer, String> item) {
+        if (item == null) return null;
+        var ret = new TreeMap<Customer, String>(new CustomerScoresComparator());
+        ret.put(item.getKey().clone(), item.getValue());
+        return ret.firstEntry();
+    }
 
     public Map.Entry<Customer, String> getSmallest() {
-        //Возможно, чтобы реализовать этот метод, потребуется посмотреть как Map.Entry сделан в jdk
-        return null; // это "заглушка, чтобы скомилировать"
+        return getCloneEntry(map.firstEntry());
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
-        return null; // это "заглушка, чтобы скомилировать"
+        return getCloneEntry(map.higherEntry(customer));
     }
 
     public void add(Customer customer, String data) {
-
+        map.put(customer, data);
     }
 }

@@ -1,11 +1,9 @@
 package ru.otus.andrk.hw04;
 
-public class Customer {
+public class Customer implements Cloneable {
     private final long id;
     private String name;
     private long scores;
-
-    //todo: 1. в этом классе надо исправить ошибки
 
     public Customer(long id, String name, long scores) {
         this.id = id;
@@ -46,19 +44,27 @@ public class Customer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Customer customer = (Customer) o;
-
         if (id != customer.id) return false;
-        if (scores != customer.scores) return false;
-        return name != null ? name.equals(customer.name) : customer.name == null;
+        //TODO: Дальнейшие сравнения лишние, убрал
+        return true;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (scores ^ (scores >>> 32));
+        //TODO: так как поменял equals, то всё что было ниже - будет ошибкой
         return result;
+    }
+
+    //TODO: Добавлен для использования в CustomerService
+    @Override
+    public Customer clone() {
+        try {
+            Customer clone = (Customer) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 }
