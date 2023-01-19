@@ -1,3 +1,4 @@
 rootProject.name = 'andrkJava'
 include 'hw01-gradle'
+include 'hw04-generics'
 
