@@ -1,6 +1,7 @@
 package ru.otus.andrk.hw04;
 
 
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,13 +17,9 @@ public class CustomerService {
 
     final TreeMap<Customer, String> map = new TreeMap<>(new CustomerScoresComparator());
 
-    //TODO: Как вариант была идея реализовать свой класс реализующий Map.Entry и в нём
-    //возвращать копию Customer, но кода писать больше
     private Map.Entry<Customer, String> getCloneEntry(Map.Entry<Customer, String> item) {
         if (item == null) return null;
-        var ret = new TreeMap<Customer, String>(new CustomerScoresComparator());
-        ret.put(item.getKey().clone(), item.getValue());
-        return ret.firstEntry();
+        return new AbstractMap.SimpleEntry<>(item.getKey().clone(), item.getValue());
     }
 
     public Map.Entry<Customer, String> getSmallest() {
