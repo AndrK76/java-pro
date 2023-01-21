@@ -19,7 +19,10 @@ public class CustomerService {
 
     private Map.Entry<Customer, String> getCloneEntry(Map.Entry<Customer, String> item) {
         if (item == null) return null;
+        var item1 = Map.Entry.copyOf(item);
+        var item2 = new AbstractMap.SimpleEntry<>(item.getKey().clone(), item.getValue());
         return new AbstractMap.SimpleEntry<>(item.getKey().clone(), item.getValue());
+        //return Map.Entry.copyOf(item);
     }
 
     public Map.Entry<Customer, String> getSmallest() {
