@@ -7,11 +7,11 @@ import java.time.temporal.ChronoUnit;
 
 public class RunOneTestStatistic {
 
-    public static RunOneTestStatistic success(String nameTest, LocalDateTime startTime, LocalDateTime endTime) {
+    public static RunOneTestStatistic createSuccess(String nameTest, LocalDateTime startTime, LocalDateTime endTime) {
         return new RunOneTestStatistic(nameTest, startTime, endTime, true, null);
     }
 
-    public static RunOneTestStatistic failure(String nameTest, LocalDateTime startTime, LocalDateTime endTime, Throwable error) {
+    public static RunOneTestStatistic createFailure(String nameTest, LocalDateTime startTime, LocalDateTime endTime, Throwable error) {
         return new RunOneTestStatistic(nameTest, startTime, endTime, false, error);
     }
 
@@ -27,7 +27,7 @@ public class RunOneTestStatistic {
         return endTime;
     }
 
-    public boolean isResult() {
+    public boolean isSuccess() {
         return result;
     }
 
@@ -44,9 +44,9 @@ public class RunOneTestStatistic {
         sb.append(String.format("%n\tНачало теста %s, продолжительность: %dмс"
                 , getStartTime().format(dtf), ChronoUnit.MILLIS.between(endTime, startTime)));
         if (error != null) {
-            sb.append(String.format("%n\tОшибка выполнения: %s", error.toString()));
+            sb.append(String.format("%n\tОшибка выполнения: %s->%s", error.getClass().getSimpleName(), error.getMessage()));
             if (error.getCause() != null){
-                sb.append(String.format(" (%s)", error.getCause().toString()));
+                sb.append(String.format(" (%s->%s)", error.getCause().getClass().getSimpleName(),error.getCause().getMessage()));
             }
         }
         return sb.toString();
