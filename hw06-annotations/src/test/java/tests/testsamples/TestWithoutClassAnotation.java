@@ -1,4 +1,4 @@
-package ru.otus.andrk.testsamples;
+package tests.testsamples;
 
 public class TestWithoutClassAnotation {
 }

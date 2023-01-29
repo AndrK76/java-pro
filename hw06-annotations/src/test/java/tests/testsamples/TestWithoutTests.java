@@ -1,4 +1,4 @@
-package ru.otus.andrk.testsamples;
+package tests.testsamples;
 
 import ru.otus.andrk.annotations.After;
 import ru.otus.andrk.annotations.Before;

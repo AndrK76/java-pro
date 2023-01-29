@@ -5,7 +5,6 @@ import ru.otus.andrk.annotations.Before;
 import ru.otus.andrk.annotations.Test;
 import ru.otus.andrk.annotations.TestName;
 
-import java.lang.annotation.AnnotationTypeMismatchException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -32,8 +31,11 @@ public class TestMachine {
         var err = test.parseClass();
         if (err != null) {
             return results;
-
         }
+        for (var testInfo : test.tests) {
+            results.addResult(test.runTest(testInfo));
+        }
+
 
         return results;
     }
@@ -85,15 +87,15 @@ public class TestMachine {
                             String.format("Некорректная аннотация для метода %s [%s]", method.getName(), annotations));
 
                 }
-                if (method.getReturnType() != void.class){
+                if (method.getReturnType() != void.class) {
 
                     throw new ReflectiveOperationException(
-                            String.format("У метода %s %s некорректный возвращаемый тип",annotations,method.getName())
+                            String.format("У метода %s %s некорректный возвращаемый тип", annotations, method.getName())
                     );
                 }
                 if (method.getParameterCount() != 0) {
                     throw new ReflectiveOperationException(
-                            String.format("У метода %s %s указаны параметры",annotations,method.getName())
+                            String.format("У метода %s %s указаны параметры", annotations, method.getName())
                     );
                 }
                 if (isBefore > 0) {
@@ -103,9 +105,11 @@ public class TestMachine {
                     finalizers.add(method);
                 }
                 if (isTest > 0) {
-                    String testName = "";
+                    String testName;
                     if (method.isAnnotationPresent(TestName.class)) {
                         testName = method.getAnnotation(TestName.class).value();
+                    } else {
+                        testName = method.getName();
                     }
                     tests.add(new TestInfo(method, testName));
                 }
@@ -120,4 +124,44 @@ public class TestMachine {
             return e;
         }
     }
+
+    private RunOneTestStatistic runTest(TestInfo test) {
+        var startTime = LocalDateTime.now();
+        RunOneTestStatistic res;
+        Object instance = null;
+        try {
+            try {
+                instance = constructor.newInstance();
+            } catch (Throwable e) {
+                throw new RuntimeException("Ошибка при создании тестового класса", e);
+            }
+            for (var initializer : initializers) {
+                try {
+                    initializer.setAccessible(true);
+                    initializer.invoke(instance);
+                } catch (Throwable e) {
+                    throw new RuntimeException(String.format("Ошибка при инициализации теста в методе %s", initializer.getName()), e);
+                }
+            }
+            test.method.setAccessible(true);
+            test.method.invoke(instance);
+            res = RunOneTestStatistic.createSuccess(test.name, startTime, LocalDateTime.now());
+        } catch (Throwable e) {
+            res = RunOneTestStatistic.createFailure(test.name, startTime, LocalDateTime.now(), e);
+        } finally {
+            if (instance != null) {
+                for (var finalizer : finalizers) {
+                    try {
+                        finalizer.setAccessible(true);
+                        finalizer.invoke(instance);
+                    } catch (Throwable e) {
+                        res = RunOneTestStatistic.createFailure(test.name, startTime, LocalDateTime.now(),
+                                new RuntimeException(String.format("Ошибка при завершении теста в методе %s", finalizer.getName()), e));
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 }

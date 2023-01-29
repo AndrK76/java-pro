@@ -1,18 +1,16 @@
-package ru.otus.andrk.testsamples.InvalidSignatures;
+package tests.testsamples.invalidsignatures;
 
 import ru.otus.andrk.annotations.After;
 import ru.otus.andrk.annotations.Before;
 import ru.otus.andrk.annotations.Test;
-
 @Test
-public class TestWithInvalidSignature1 {
+public class TestWithInvalidSignature2 {
+
 
     @Before
-    public int invalidBefore1() {
-        return 1;
+    public void invalidBefore2(String arg) {
     }
 
     @Test
     public void doTest(){}
-
 }
