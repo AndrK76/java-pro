@@ -65,12 +65,13 @@ public class TestMachine {
                 if (constr.getParameterCount() == 0) {
                     constructor = constr;
                 }
-                if (constructor == null) {
-                    throw new NoSuchMethodException("Не найден конструктор по умолчанию для класса теста");
-                }
-                if (!testClass.isAnnotationPresent(Test.class))
-                    throw new ReflectiveOperationException("Класс не является тестом (нет аннотации @Test");
             }
+            if (constructor == null) {
+                throw new NoSuchMethodException("Не найден конструктор по умолчанию для класса теста");
+            }
+            if (!testClass.isAnnotationPresent(Test.class))
+                throw new ReflectiveOperationException("Класс не является тестом (нет аннотации @Test");
+
             for (var method : testClass.getDeclaredMethods()) {
                 int isBefore = method.isAnnotationPresent(Before.class) ? 1 : 0;
                 int isTest = method.isAnnotationPresent(Test.class) ? 1 : 0;

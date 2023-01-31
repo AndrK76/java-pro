@@ -28,6 +28,14 @@ public class TestMachineTest {
     }
 
     @Test
+    @DisplayName("Проверка TestMachine на запуск тестов с несколькими конструкторами")
+    void testWithMultipleConstructors() {
+        var actual = TestMachine.Run(TestWithMultipleConstructors.class);
+        assertThat(actual.getTestsFailure()).isEqualTo(0);
+        assertThat(actual.getTestsSuccess()).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("Проверка TestMachine на запуск тестов без аннотации")
     void testWithNotAnnotated() {
         var actual = TestMachine.Run(TestWithoutClassAnotation.class);
