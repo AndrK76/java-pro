@@ -64,6 +64,7 @@ public class TestMachine {
             for (var constr : testClass.getConstructors()) {
                 if (constr.getParameterCount() == 0) {
                     constructor = constr;
+                    break;
                 }
             }
             if (constructor == null) {
