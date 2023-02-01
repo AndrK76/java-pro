@@ -63,7 +63,7 @@ public class TestMachine {
         this.results = results;
     }
 
-    private Throwable parseClass() {
+    private ReflectiveOperationException parseClass() {
         try {
             findClassConstructor();
             findOtherClassMethods();
