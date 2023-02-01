@@ -126,7 +126,6 @@ public class TestMachine {
     }
 
     private void runMethod(MethodInfo methodInfo, Object instance) {
-        methodInfo.method.setAccessible(true);
         try {
             methodInfo.method.invoke(instance);
         } catch (InvocationTargetException ex) {
@@ -142,6 +141,7 @@ public class TestMachine {
             return null; //Статические методы не интересны
         }
         boolean hasParams = method.getParameterCount() > 0;
+        method.setAccessible(true);
         if (isConstructor) {
             //Для конструктора остальные проверки не нужны
             return hasParams ? null : new MethodInfo(MethodType.CONSTRUCTOR, null, null);
