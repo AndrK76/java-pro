@@ -8,7 +8,7 @@ public class Main {
         System.out.println("***Запуск теста для класса SampleTest***");
         SampleTest.runLog.clear();
         var testResult = TestMachine.Run("ru.otus.andrk.testsamples.SampleTest");
-        System.out.println(testResult);
+        System.out.println(testResult.prettyPrint());
         System.out.println();
         System.out.println("Log:");
         for (var log : SampleTest.runLog) {

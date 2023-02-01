@@ -14,7 +14,6 @@ public class RunOneTestStatisticTest {
     @Test
     @DisplayName("Проверка RunOneTestStatistic на создание успешного результата")
     void creationSuccessResult() {
-        //given
         String expectedName = "name test";
         LocalDateTime dt1 = LocalDateTime.of(2000, Month.JANUARY,1,0,0,0);
         LocalDateTime dt2 = LocalDateTime.now();

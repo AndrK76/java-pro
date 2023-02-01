@@ -11,8 +11,20 @@ public class RunOneTestStatistic {
         return new RunOneTestStatistic(nameTest, startTime, endTime, true, null);
     }
 
+    public static RunOneTestStatistic createSuccess(RunOneTestStatistic origResult) {
+        return new RunOneTestStatistic(origResult.nameTest, origResult.startTime, origResult.endTime, true, null);
+    }
+
     public static RunOneTestStatistic createFailure(String nameTest, LocalDateTime startTime, LocalDateTime endTime, Throwable error) {
         return new RunOneTestStatistic(nameTest, startTime, endTime, false, error);
+    }
+
+    public static RunOneTestStatistic createFailure(RunOneTestStatistic origResult) {
+        return new RunOneTestStatistic(origResult.nameTest, origResult.startTime, origResult.endTime, false, origResult.error);
+    }
+
+    public static RunOneTestStatisticsFormatter getDefaultFormatter() {
+        return new DefaultFormatter();
     }
 
     public String getNameTest() {
@@ -35,21 +47,27 @@ public class RunOneTestStatistic {
         return error;
     }
 
+    public String prettyPrint(RunOneTestStatisticsFormatter formatter) {
+        return formatter.prettyPrint(this);
+    }
+
+    public String prettyPrint() {
+        return RunOneTestStatistic.getDefaultFormatter().prettyPrint(this);
+    }
+
+
     @Override
     public String toString() {
+        return "RunOneTestStatistic{" +
+                "nameTest='" + nameTest + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", result=" + result +
+                ", error=" + error +
+                '}';
+    }
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        StringBuilder sb = new StringBuilder(4);
-        sb.append(String.format("Тест %s: %s", nameTest, result ? "Успех" : "Ошибка"));
-        sb.append(String.format("%n\tНачало теста %s, продолжительность: %dмс"
-                , getStartTime().format(dtf), ChronoUnit.MILLIS.between(startTime, endTime)));
-        if (error != null) {
-            sb.append(String.format("%n\tОшибка выполнения: %s->%s", error.getClass().getSimpleName(), error.getMessage()));
-            if (error.getCause() != null) {
-                sb.append(String.format(" (%s->%s)", error.getCause().getClass().getSimpleName(), error.getCause().getMessage()));
-            }
-        }
-        return sb.toString();
+    private static class DefaultFormatter implements RunOneTestStatisticsFormatter {
     }
 
     private final String nameTest;

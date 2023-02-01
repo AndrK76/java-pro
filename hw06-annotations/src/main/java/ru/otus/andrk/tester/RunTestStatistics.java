@@ -1,70 +1,102 @@
 package ru.otus.andrk.tester;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class RunTestStatistics {
 
-    public static RunTestStatistics create(String testsName)
-    {
+    public static RunTestStatistics create(String testsName) {
         return new RunTestStatistics(testsName);
     }
-    public static RunTestStatistics createWithFailedResult(String testsName,RunOneTestStatistic result)
-    {
+
+    public static RunTestStatistics createWithFailedResult(String testsName, RunOneTestStatistic result) {
         var ret = new RunTestStatistics(testsName);
-        ret.results.addAll(List.of(new RunOneTestStatistic[]{result}));
-        ret.testsFailure = 1;
+        RunOneTestStatistic retRes;
+        //Можно передать успешный result, будет противоречие
+        if (!result.isSuccess()) {
+            retRes = result;
+        } else {
+            retRes = RunOneTestStatistic.createFailure(result);
+        }
+
+        ret.results.addAll(List.of(new RunOneTestStatistic[]{retRes}));
         return ret;
     }
+    public static RunTestStatisticsFormatter getDefaultFormatter() {
+        return new RunTestStatistics.DefaultFormatter();
+    }
+
 
     public String getTestsName() {
         return testsName;
     }
 
+    //TODO: комментарий
     public int getTestsSuccess() {
-        return testsSuccess;
+        return getCountByResType(RetResult.SUCCESS);
     }
 
     public int getTestsFailure() {
-        return testsFailure;
+        return getCountByResType(RetResult.FAILURE);
     }
 
+    //TODO: комментарий
     public Collection<RunOneTestStatistic> getResults() {
-        return results;
+        return Collections.unmodifiableCollection(results);
     }
 
-    public void addResult(RunOneTestStatistic testRes){
+    public void addResult(RunOneTestStatistic testRes) {
         results.add(testRes);
-        if (testRes.isSuccess()){
-            testsSuccess++;
-        }
-        else {
-            testsFailure++;
-        }
     }
 
+    public String prettyPrint(RunTestStatisticsFormatter formatter, RunOneTestStatisticsFormatter rowFormatter){
+        return formatter.prettyPrint(this,rowFormatter);
+    }
+    public String prettyPrint(RunTestStatisticsFormatter formatter){
+        return formatter.prettyPrint(this);
+    }
+    public String prettyPrint(RunOneTestStatisticsFormatter rowFormatter){
+        RunTestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+        return formatter.prettyPrint(this, rowFormatter);
+    }
+    public String prettyPrint(){
+        RunTestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+        return formatter.prettyPrint(this);
+    }
+
+    @Override
+    public String toString() {
+        return "RunTestStatistics{" +
+                "testsName='" + testsName + '\'' +
+                ", results=" + results +
+                '}';
+    }
+
+    private static class DefaultFormatter implements RunTestStatisticsFormatter {
+    }
 
     private RunTestStatistics(String testsName) {
         this.testsName = testsName;
-        results = new LinkedList<>();
+        //TODO: оставить комментарий
+        results = new ArrayList<>();
     }
+
 
     private final Collection<RunOneTestStatistic> results;
 
     private final String testsName;
 
-    private int testsSuccess = 0;
-    private int testsFailure = 0;
-
-
-    @Override
-    public String toString() {
-        StringBuilder ret = new StringBuilder(results.size()+1);
-        ret.append(String.format("Результат выполнения тестов %s: выполнено %d тестов, успешно %d, с ошибкой %d%n",
-                testsName, testsSuccess+testsFailure,testsSuccess,testsFailure));
-        for (var res : results) ret.append(String.format("%s%n",res.toString()));
-        return ret.toString();
+    private enum RetResult {
+        SUCCESS,
+        FAILURE
     }
+
+    private int getCountByResType(RetResult resType) {
+        if (results.size() == 0) {
+            return 0;
+        }
+        boolean querySuccessRes = resType.equals(RetResult.SUCCESS);
+        return (int) results.stream().filter(r -> r.isSuccess() == querySuccessRes).count();
+    }
+
 
 }
