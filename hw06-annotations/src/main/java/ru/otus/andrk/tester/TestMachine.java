@@ -66,16 +66,7 @@ public class TestMachine {
     private Throwable parseClass() {
         try {
             findClassConstructor();
-
-            for (var method : testClass.getDeclaredMethods()) {
-                var methodInfo = getInfoForNeededMethod(method, false);
-                if (methodInfo != null) {
-                    methodsForRun.add(methodInfo);
-                }
-            }
-            if (getMethodsForRunWithType(MethodType.TEST).size() == 0) {
-                throw new ReflectiveOperationException("В разбираемом классе тесты не найдены");
-            }
+            findOtherClassMethods();
             return null;
         } catch (ReflectiveOperationException e) {
             return e;
@@ -211,5 +202,15 @@ public class TestMachine {
             throw new NoSuchMethodException("Не найден конструктор по умолчанию для класса теста");
         }
     }
-
+    private void findOtherClassMethods() throws ReflectiveOperationException {
+        for (var method : testClass.getDeclaredMethods()) {
+            var methodInfo = getInfoForNeededMethod(method, false);
+            if (methodInfo != null) {
+                methodsForRun.add(methodInfo);
+            }
+        }
+        if (getMethodsForRunWithType(MethodType.TEST).size() == 0) {
+            throw new ReflectiveOperationException("В разбираемом классе тесты не найдены");
+        }
+    }
 }
