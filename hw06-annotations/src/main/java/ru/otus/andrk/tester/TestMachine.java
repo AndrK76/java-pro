@@ -77,7 +77,7 @@ public class TestMachine {
                 throw new ReflectiveOperationException("В разбираемом классе тесты не найдены");
             }
             return null;
-        } catch (Throwable e) {
+        } catch (ReflectiveOperationException e) {
             return e;
         }
     }
@@ -138,7 +138,9 @@ public class TestMachine {
         methodInfo.method.setAccessible(true);
         try {
             methodInfo.method.invoke(instance);
-        } catch (Exception ex) {
+        } catch (InvocationTargetException ex) {
+            throw new RunMethodException(methodInfo.method.getName(), ex.getTargetException());
+        }catch (Exception ex) {
             throw new RunMethodException(methodInfo.method.getName(), ex);
         }
     }
