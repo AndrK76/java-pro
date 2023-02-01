@@ -2,35 +2,21 @@ package ru.otus.andrk.tester;
 
 import java.util.*;
 
-public class RunTestStatistics {
+public class RunTestStatistics implements TestStatistics {
 
     public static RunTestStatistics create(String testsName) {
         return new RunTestStatistics(testsName);
     }
 
-    public static RunTestStatistics createWithFailedResult(String testsName, RunOneTestStatistic result) {
+    public static RunTestStatistics createWithResult(String testsName, OneTestStatistic result) {
         var ret = new RunTestStatistics(testsName);
-        RunOneTestStatistic retRes;
-        //Можно передать успешный result, будет противоречие
-        if (!result.isSuccess()) {
-            retRes = result;
-        } else {
-            retRes = RunOneTestStatistic.createFailure(result);
-        }
-
-        ret.results.addAll(List.of(new RunOneTestStatistic[]{retRes}));
+        ret.results.add(result);
         return ret;
     }
-    public static RunTestStatisticsFormatter getDefaultFormatter() {
-        return new RunTestStatistics.DefaultFormatter();
-    }
-
-
     public String getTestsName() {
         return testsName;
     }
 
-    //TODO: комментарий
     public int getTestsSuccess() {
         return getCountByResType(RetResult.SUCCESS);
     }
@@ -39,28 +25,34 @@ public class RunTestStatistics {
         return getCountByResType(RetResult.FAILURE);
     }
 
-    //TODO: комментарий
-    public Collection<RunOneTestStatistic> getResults() {
+    public Collection<OneTestStatistic> getResults() {
         return Collections.unmodifiableCollection(results);
     }
 
-    public void addResult(RunOneTestStatistic testRes) {
+    public void addResult(OneTestStatistic testRes) {
         results.add(testRes);
     }
 
-    public String prettyPrint(RunTestStatisticsFormatter formatter, RunOneTestStatisticsFormatter rowFormatter){
-        return formatter.prettyPrint(this,rowFormatter);
-    }
-    public String prettyPrint(RunTestStatisticsFormatter formatter){
-        return formatter.prettyPrint(this);
-    }
-    public String prettyPrint(RunOneTestStatisticsFormatter rowFormatter){
-        RunTestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+    public String prettyPrint(TestStatisticsFormatter formatter, OneTestStatisticsFormatter rowFormatter) {
         return formatter.prettyPrint(this, rowFormatter);
     }
-    public String prettyPrint(){
-        RunTestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+
+    public String prettyPrint(TestStatisticsFormatter formatter) {
         return formatter.prettyPrint(this);
+    }
+
+    public String prettyPrint(OneTestStatisticsFormatter rowFormatter) {
+        TestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+        return formatter.prettyPrint(this, rowFormatter);
+    }
+
+    public String prettyPrint() {
+        TestStatisticsFormatter formatter = RunTestStatistics.getDefaultFormatter();
+        return formatter.prettyPrint(this);
+    }
+
+    public static TestStatisticsFormatter getDefaultFormatter() {
+        return new RunTestStatistics.DefaultFormatter();
     }
 
     @Override
@@ -71,17 +63,16 @@ public class RunTestStatistics {
                 '}';
     }
 
-    private static class DefaultFormatter implements RunTestStatisticsFormatter {
+    private static class DefaultFormatter implements TestStatisticsFormatter {
     }
 
     private RunTestStatistics(String testsName) {
         this.testsName = testsName;
-        //TODO: оставить комментарий
         results = new ArrayList<>();
     }
 
 
-    private final Collection<RunOneTestStatistic> results;
+    private final Collection<OneTestStatistic> results;
 
     private final String testsName;
 

@@ -3,8 +3,8 @@ package ru.otus.andrk.tester;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public interface RunOneTestStatisticsFormatter {
-    default String prettyPrint(RunOneTestStatistic result)
+public interface OneTestStatisticsFormatter {
+    default String prettyPrint(OneTestStatistic result)
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         StringBuilder sb = new StringBuilder(4);

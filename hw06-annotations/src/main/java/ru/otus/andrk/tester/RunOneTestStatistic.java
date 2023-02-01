@@ -1,29 +1,28 @@
 package ru.otus.andrk.tester;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 
-public class RunOneTestStatistic {
+public class RunOneTestStatistic implements OneTestStatistic{
 
-    public static RunOneTestStatistic createSuccess(String nameTest, LocalDateTime startTime, LocalDateTime endTime) {
+    public static OneTestStatistic createSuccess(String nameTest, LocalDateTime startTime, LocalDateTime endTime) {
         return new RunOneTestStatistic(nameTest, startTime, endTime, true, null);
     }
 
-    public static RunOneTestStatistic createSuccess(RunOneTestStatistic origResult) {
-        return new RunOneTestStatistic(origResult.nameTest, origResult.startTime, origResult.endTime, true, null);
+    public static OneTestStatistic createSuccess(OneTestStatistic origResult) {
+        return new RunOneTestStatistic(origResult.getNameTest(), origResult.getStartTime(), origResult.getEndTime(), true, null);
     }
 
-    public static RunOneTestStatistic createFailure(String nameTest, LocalDateTime startTime, LocalDateTime endTime, Throwable error) {
+    public static OneTestStatistic createFailure(String nameTest, LocalDateTime startTime, LocalDateTime endTime, Throwable error) {
         return new RunOneTestStatistic(nameTest, startTime, endTime, false, error);
     }
 
-    public static RunOneTestStatistic createFailure(RunOneTestStatistic origResult) {
-        return new RunOneTestStatistic(origResult.nameTest, origResult.startTime, origResult.endTime, false, origResult.error);
+    public static OneTestStatistic createFailure(OneTestStatistic origResult) {
+        return new RunOneTestStatistic(origResult.getNameTest(), origResult.getStartTime(),
+                origResult.getEndTime(), false, origResult.getError());
     }
 
-    public static RunOneTestStatisticsFormatter getDefaultFormatter() {
+    public static OneTestStatisticsFormatter getDefaultFormatter() {
         return new DefaultFormatter();
     }
 
@@ -47,14 +46,13 @@ public class RunOneTestStatistic {
         return error;
     }
 
-    public String prettyPrint(RunOneTestStatisticsFormatter formatter) {
+    public String prettyPrint(OneTestStatisticsFormatter formatter) {
         return formatter.prettyPrint(this);
     }
 
     public String prettyPrint() {
         return RunOneTestStatistic.getDefaultFormatter().prettyPrint(this);
     }
-
 
     @Override
     public String toString() {
@@ -67,7 +65,7 @@ public class RunOneTestStatistic {
                 '}';
     }
 
-    private static class DefaultFormatter implements RunOneTestStatisticsFormatter {
+    private static class DefaultFormatter implements OneTestStatisticsFormatter {
     }
 
     private final String nameTest;

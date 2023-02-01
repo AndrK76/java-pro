@@ -2,11 +2,11 @@ package tests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.andrk.tester.OneTestStatistic;
 import ru.otus.andrk.tester.TestMachine;
 import tests.testsamples.*;
 import tests.testsamples.invalidsignatures.*;
 
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -14,7 +14,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов несуществующего класса")
     void noExistClass() {
-        var actual = TestMachine.Run("ru.otus.andrk.tests.BigTest1");
+        var actual = TestMachine.run("ru.otus.andrk.tests.BigTest1");
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -22,7 +22,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов с NonDefault конструктором")
     void testWithNotDefaultConstructor() {
-        var actual = TestMachine.Run(TestWithNotDefaultConstructor.class);
+        var actual = TestMachine.run(TestWithNotDefaultConstructor.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -30,7 +30,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов с несколькими конструкторами")
     void testWithMultipleConstructors() {
-        var actual = TestMachine.Run(TestWithMultipleConstructors.class);
+        var actual = TestMachine.run(TestWithMultipleConstructors.class);
         assertThat(actual.getTestsFailure()).isEqualTo(0);
         assertThat(actual.getTestsSuccess()).isEqualTo(1);
     }
@@ -38,7 +38,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов без аннотации")
     void testWithNotAnnotated() {
-        var actual = TestMachine.Run(TestWithoutClassAnotation.class);
+        var actual = TestMachine.run(TestWithoutClassAnotation.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -46,7 +46,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов с двойной аннотацией")
     void testWithDuplicateAnnotations() {
-        var actual = TestMachine.Run(TestWithDuplicateAnnotations.class);
+        var actual = TestMachine.run(TestWithDuplicateAnnotations.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -54,7 +54,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск тестов без тестов")
     void testWithoutTests() {
-        var actual = TestMachine.Run(TestWithoutTests.class);
+        var actual = TestMachine.run(TestWithoutTests.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -66,36 +66,36 @@ public class TestMachineTest {
                 TestWithInvalidSignature3.class, TestWithInvalidSignature4.class,
                 TestWithInvalidSignature5.class, TestWithInvalidSignature6.class};
         for (var test : tests) {
-            var actual = TestMachine.Run(test);
+            var actual = TestMachine.run(test);
             assertThat(actual.getTestsFailure()).isEqualTo(1);
             assertThat(actual.getTestsSuccess()).isEqualTo(0);
         }
     }
 
     @Test
-    @DisplayName("Проверка TestMachine на запуск теста с указанием явного конструтора без параметров")
+    @DisplayName("Проверка TestMachine на запуск теста с указанием явного конструктора без параметров")
     void testWithDefaultConstructor() {
-        var actual = TestMachine.Run(TestWithDefaultConstructor.class);
+        var actual = TestMachine.run(TestWithDefaultConstructor.class);
         assertThat(actual.getTestsFailure()).isEqualTo(0);
         assertThat(actual.getTestsSuccess()).isEqualTo(1);
         assertThat(actual.getResults().size()).isEqualTo(1);
-        assertThat(actual.getResults().stream().map(x -> x.isSuccess()).collect(Collectors.toList()).get(0)).isEqualTo(true);
+        assertThat(actual.getResults().stream().map(OneTestStatistic::isSuccess).toList().get(0)).isEqualTo(true);
     }
 
     @Test
     @DisplayName("Проверка TestMachine на запуск теста без указания явного конструктора")
     void testWithoutConstructor() {
-        var actual = TestMachine.Run(TestWithoutConstructor.class);
+        var actual = TestMachine.run(TestWithoutConstructor.class);
         assertThat(actual.getTestsFailure()).isEqualTo(0);
         assertThat(actual.getTestsSuccess()).isEqualTo(1);
         assertThat(actual.getResults().size()).isEqualTo(1);
-        assertThat(actual.getResults().stream().map(x -> x.isSuccess()).collect(Collectors.toList()).get(0)).isEqualTo(true);
+        assertThat(actual.getResults().stream().map(OneTestStatistic::isSuccess).toList().get(0)).isEqualTo(true);
     }
 
     @Test
     @DisplayName("Проверка TestMachine на запуск теста с ошибкой в инициализаторе")
     void testWithInitError() {
-        var actual = TestMachine.Run(TestWithInitError.class);
+        var actual = TestMachine.run(TestWithInitError.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
         //assertThat(actual.getResults().stream().map(x->x.isSuccess()).collect(Collectors.toList()).get(0)).isEqualTo(false);
@@ -104,7 +104,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск теста с ошибкой в финализаторе")
     void testWithFinishError() {
-        var actual = TestMachine.Run(TestWithFinishError.class);
+        var actual = TestMachine.run(TestWithFinishError.class);
         assertThat(actual.getTestsFailure()).isEqualTo(2);
         assertThat(actual.getTestsSuccess()).isEqualTo(0);
     }
@@ -112,7 +112,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск всех тестов включая тесты с ошибками")
     void testMultipleTestContainErrors() {
-        var actual = TestMachine.Run(TestWithMultipleTests.class);
+        var actual = TestMachine.run(TestWithMultipleTests.class);
         assertThat(actual.getTestsFailure()).isEqualTo(1);
         assertThat(actual.getTestsSuccess()).isEqualTo(2);
     }
@@ -120,7 +120,7 @@ public class TestMachineTest {
     @Test
     @DisplayName("Проверка TestMachine на запуск всех тестов не взирая на модификатор доступа")
     void testWithAnyModifiers() {
-        var actual = TestMachine.Run(TestWithAnyModifiers.class);
+        var actual = TestMachine.run(TestWithAnyModifiers.class);
         assertThat(actual.getTestsFailure()).isEqualTo(0);
         assertThat(actual.getTestsSuccess()).isEqualTo(4);
     }
@@ -129,7 +129,7 @@ public class TestMachineTest {
     @DisplayName("Проверка TestMachine на запуск каждого теста в отдельном экземпляре класса")
     void testOnEachRunInOtherInstance() {
         SpyWithInstanceLogging.log.clear();
-        var actual = TestMachine.Run(SpyWithInstanceLogging.class);
+        var actual = TestMachine.run(SpyWithInstanceLogging.class);
         assertThat(actual.getTestsFailure()).isEqualTo(0);
         assertThat(actual.getTestsSuccess()).isEqualTo(2);
         var log = SpyWithInstanceLogging.log;
@@ -142,10 +142,12 @@ public class TestMachineTest {
             var val1 = log1.pollFirst();
             var val2 = log2.pollFirst();
             if (i == 2) {
+                assert val1 != null;
                 assertThat(val1.equals(val2)).isFalse();
                 assertThat(val1).startsWith("test");
                 assertThat(val2).startsWith("test");
             } else {
+                assert val1 != null;
                 assertThat(val1.equals(val2)).isTrue();
             }
             if (i == 0) {
