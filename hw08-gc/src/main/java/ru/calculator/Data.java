@@ -1,13 +1,22 @@
 package ru.calculator;
 
 public class Data {
-    private final Integer value;
 
-    public Data(Integer value) {
+    private final static Data instance = new Data(0);
+
+    private int value;
+
+    public Data(int value) {
         this.value = value;
     }
 
-    public Integer getValue() {
+    //Понимаю что при многопоточном выполнении так нельзя
+    public static Data create(int value){
+        instance.value = value;
+        return instance;
+    }
+
+    public int getValue() {
         return value;
     }
 }

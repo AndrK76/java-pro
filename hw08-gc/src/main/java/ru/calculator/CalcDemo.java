@@ -20,7 +20,7 @@ public class CalcDemo {
         long startTime = System.currentTimeMillis();
 
         for (var idx = 0; idx < counter; idx++) {
-            var data = new Data(idx);
+            var data = Data.create(idx);
             summator.calc(data);
 
             if (idx % 10_000_000 == 0) {
