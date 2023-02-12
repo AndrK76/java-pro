@@ -1,8 +1,8 @@
 package ru.otus.andrk.proxy;
 
-import ru.otus.andrk.testlogging.*;
+import java.lang.reflect.Proxy;
 
-import java.lang.reflect.*;
+import ru.otus.andrk.testlogging.*;
 
 public class LoggingProxy {
     public static TestLogging create(Class<?> clazz, Logger logger) {
@@ -15,4 +15,6 @@ public class LoggingProxy {
         }
     }
 
+    private LoggingProxy() {
+    }
 }

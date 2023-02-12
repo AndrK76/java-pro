@@ -1,7 +1,6 @@
 package ru.otus.andrk.proxy;
 
-import ru.otus.andrk.testlogging.Log;
-import ru.otus.andrk.testlogging.TestLogging;
+import ru.otus.andrk.testlogging.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +14,7 @@ class ReflectionHandler {
 
     public static ReflectionHandler create(Class<?> clazz) throws NoSuchMethodException {
         var ret = new ReflectionHandler();
+
         if (!TestLogging.class.isAssignableFrom(clazz)) {
             throw new IllegalArgumentException(clazz.getSimpleName() + " не реализует интерфейс TestLogging");
         }
@@ -25,10 +25,11 @@ class ReflectionHandler {
                 ret.methodsForLog.add(interfaceMethod);
             }
         }
+
         return ret;
     }
 
-    public Object getInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object createInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         return constructor.newInstance();
     }
 

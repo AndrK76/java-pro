@@ -10,6 +10,7 @@ public class App {
     public static void main(String[] args) {
         var logger = new LoggerImpl();
         var logged = LoggingProxy.create(TestLoggingImpl.class, logger);
+
         System.out.println("Program output: ");
         logged.computeZero();
         logged.computeOne(1);

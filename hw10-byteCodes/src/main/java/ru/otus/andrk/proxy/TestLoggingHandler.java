@@ -10,18 +10,16 @@ import java.lang.reflect.Method;
 class TestLoggingHandler implements InvocationHandler {
     private final TestLogging obj;
     private ReflectionHandler objInfo;
-
     private Logger logger;
 
     public static TestLoggingHandler create(Class<?> clazz, Logger logger) throws ReflectiveOperationException {
         var objInfo = ReflectionHandler.create(clazz);
-        var ret = new TestLoggingHandler((TestLogging) objInfo.getInstance());
+        var ret = new TestLoggingHandler((TestLogging) objInfo.createInstance());
         ret.objInfo = objInfo;
         ret.logger = logger;
         return ret;
     }
-
-    public TestLoggingHandler(TestLogging obj) {
+    private TestLoggingHandler(TestLogging obj) {
         this.obj = obj;
     }
 
@@ -36,7 +34,6 @@ class TestLoggingHandler implements InvocationHandler {
             }
             logger.add(log.toString());
         }
-
         return method.invoke(obj, args);
     }
 
@@ -49,6 +46,5 @@ class TestLoggingHandler implements InvocationHandler {
             log.append(String.format("{type=%s, value=%s}, ", args.getClass().getSimpleName(), args));
         }
     }
-
 
 }
