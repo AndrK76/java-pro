@@ -9,24 +9,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 class ReflectionHandler {
-    Constructor<?> constructor;
-    Set<Method> methodsForLog = new HashSet<>();
+    private final Constructor<?> constructor;
+    private final Set<Method> methodsForLog = new HashSet<>();
 
-    public static ReflectionHandler create(Class<?> clazz) throws NoSuchMethodException {
-        var ret = new ReflectionHandler();
-
+    public ReflectionHandler(Class<?> clazz) throws NoSuchMethodException {
+        this.constructor = clazz.getDeclaredConstructor();
         if (!TestLogging.class.isAssignableFrom(clazz)) {
             throw new IllegalArgumentException(clazz.getSimpleName() + " не реализует интерфейс TestLogging");
         }
-        ret.constructor = clazz.getDeclaredConstructor();
         for (var interfaceMethod : TestLogging.class.getDeclaredMethods()) {
-            var implMethod = clazz.getMethod(interfaceMethod.getName(),interfaceMethod.getParameterTypes());
+            var implMethod = clazz.getMethod(interfaceMethod.getName(), interfaceMethod.getParameterTypes());
             if (implMethod.isAnnotationPresent(Log.class)) {
-                ret.methodsForLog.add(interfaceMethod);
+                this.methodsForLog.add(interfaceMethod);
             }
         }
-
-        return ret;
     }
 
     public Object createInstance() throws InvocationTargetException, InstantiationException, IllegalAccessException {

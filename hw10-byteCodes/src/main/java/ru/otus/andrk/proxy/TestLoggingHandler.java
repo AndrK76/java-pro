@@ -13,7 +13,7 @@ class TestLoggingHandler implements InvocationHandler {
     private Logger logger;
 
     public static TestLoggingHandler create(Class<?> clazz, Logger logger) throws ReflectiveOperationException {
-        var objInfo = ReflectionHandler.create(clazz);
+        var objInfo = new ReflectionHandler(clazz);
         var ret = new TestLoggingHandler((TestLogging) objInfo.createInstance());
         ret.objInfo = objInfo;
         ret.logger = logger;
