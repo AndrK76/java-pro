@@ -2,14 +2,11 @@ package ru.otus.andrk.rubles;
 
 import ru.otus.andrk.domain.Banknote;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Rubles {
-
-    private static Rubles instance = null;
     private final Map<Integer, Banknote> banknotes;
 
     private Rubles() {
@@ -27,10 +24,7 @@ public class Rubles {
     }
 
     public static Rubles getInstance() {
-        if (instance == null) {
-            instance = new Rubles();
-        }
-        return instance;
+        return RublesHolder.instance;
     }
 
     public Iterable<? extends Banknote> getBanknotes() {
@@ -42,6 +36,10 @@ public class Rubles {
             throw new IllegalArgumentException(String.format("Купюры с номиналом %d не существует", nominal));
         }
         return banknotes.get(nominal);
+    }
+
+    private static class RublesHolder {
+        static final Rubles instance = new Rubles();
     }
 
 }

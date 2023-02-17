@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class AtmInstance implements Atm {
-
     private static final class CellState {
         private Integer count;
         private final Integer capacity;
@@ -17,7 +16,6 @@ public class AtmInstance implements Atm {
             this.count = count;
             this.capacity = capacity;
         }
-
         public void setCount(int count) {
             if (count > capacity) {
                 throw new AtmFullException();
@@ -32,8 +30,6 @@ public class AtmInstance implements Atm {
         public Integer getCapacity() {
             return capacity;
         }
-
-
     }
 
     private final Map<Banknote, CellState> cells;
@@ -56,7 +52,6 @@ public class AtmInstance implements Atm {
             }
         }
     }
-
     @Override
     public List<Banknote> getMoneyFromAtm(Integer sum) throws IllegalArgumentException, NoHaveBanknoteException {
         if (sum <= 0) {
@@ -67,28 +62,9 @@ public class AtmInstance implements Atm {
                 .filter(r -> cells.get(r).getCount() > 0)
                 .sorted(Comparator.comparingInt(Banknote::nominal).reversed())
                 .toList();
-        int neededSum = sum;
-        for (var cell : aviableBanknotes) {
-            if (cell.nominal() > neededSum) {
-                continue;
-            }
-            var couToSend = Math.min((int) Math.floor((float) neededSum / (float) cell.nominal()), cell.nominal());
-            //cells.get(cell).setCount(cells.get(cell).getCount()-couToSend);
-            neededSum -= cell.nominal() * couToSend;
 
-            ret.add(new Banknotes(cell, couToSend));
-            if (neededSum == 0) {
-                break;
-            }
-        }
-        if (neededSum > 0) {
-            throw new NoHaveBanknoteException("ATM don't have banknotes for you sum");
-        }
-        for (var banknotes : ret) {
-            var cell = cells.get(banknotes.banknote());
-            cell.setCount(cell.getCount()- banknotes.count());
-        }
-
+        tryComposeSum(sum, ret, aviableBanknotes);
+        prepareComposedSum(ret);
         return BanknotesHandler.toListBanknote(ret);
     }
 
@@ -100,4 +76,31 @@ public class AtmInstance implements Atm {
         }
         return sum;
     }
+
+    private void tryComposeSum(Integer sum, ArrayList<Banknotes> ret, List<Banknote> aviableBanknotes) {
+        int neededSum = sum;
+        for (var cell : aviableBanknotes) {
+            if (cell.nominal() > neededSum) {
+                continue;
+            }
+            var couToSend = Math.min((int) Math.floor((float) neededSum / (float) cell.nominal()), cells.get(cell).count);
+            neededSum -= cell.nominal() * couToSend;
+
+            ret.add(new Banknotes(cell, couToSend));
+            if (neededSum == 0) {
+                break;
+            }
+        }
+        if (neededSum > 0) {
+            throw new NoHaveBanknoteException("ATM don't have banknotes for you sum");
+        }
+    }
+
+    private void prepareComposedSum(ArrayList<Banknotes> ret) {
+        for (var banknotes : ret) {
+            var cell = cells.get(banknotes.banknote());
+            cell.setCount(cell.getCount() - banknotes.count());
+        }
+    }
+
 }

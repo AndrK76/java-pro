@@ -23,4 +23,11 @@ public class BanknotesHandler {
         return ret;
     }
 
+    public static List<Banknotes> groupByBanknote(List<Banknote> banknotes) {
+        return banknotes.stream()
+                .collect(Collectors.groupingBy(r -> r, Collectors.counting()))
+                .entrySet().stream()
+                .map(r -> new Banknotes(r.getKey(), r.getValue().intValue()))
+                .collect(Collectors.toList());
+    }
 }
