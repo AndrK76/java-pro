@@ -31,6 +31,6 @@ public class BanknotesHandler {
                 .collect(Collectors.toList());
     }
     public static Integer sum(List<Banknote> banknotes){
-        return banknotes.stream().map(v->v.nominal()).reduce(0, (a,b)->a+b);
+        return banknotes.stream().map(Banknote::nominal).reduce(0, Integer::sum);
     }
 }

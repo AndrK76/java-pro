@@ -13,25 +13,24 @@ public class AtmTests {
     @Test
     @DisplayName("Проверка на возможность загрузки банкнот в банкомат")
     void canPutMoneyToAtmTest() {
-        var rubles = Rubles.getInstance();
         Atm atm = AtmImpl.create(
-                new AtmCellDefinition(rubles.getByNominal(5), 100),
-                new AtmCellDefinition(rubles.getByNominal(50), 100),
-                new AtmCellDefinition(rubles.getByNominal(200), 20),
-                new AtmCellDefinition(rubles.getByNominal(1000), 200)
+                new AtmCellDefinition(Rubles.getByNominal(5), 100),
+                new AtmCellDefinition(Rubles.getByNominal(50), 100),
+                new AtmCellDefinition(Rubles.getByNominal(200), 20),
+                new AtmCellDefinition(Rubles.getByNominal(1000), 200)
         );
         var expectedSumInAtm = 0;
 
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(50), 10),
-                new Banknotes(rubles.getByNominal(200), 10),
-                new Banknotes(rubles.getByNominal(1000), 10)
+                new Banknotes(Rubles.getByNominal(50), 10),
+                new Banknotes(Rubles.getByNominal(200), 10),
+                new Banknotes(Rubles.getByNominal(1000), 10)
         ));
         expectedSumInAtm = 12_500;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
-        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(rubles.getByNominal(50), 1)));
-        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(rubles.getByNominal(5), 1)));
+        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(Rubles.getByNominal(50), 1)));
+        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(Rubles.getByNominal(5), 1)));
         expectedSumInAtm = 12_555;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
     }
@@ -39,38 +38,37 @@ public class AtmTests {
     @Test
     @DisplayName("Загрузка в банкомат купюр, для которых нет ячейки")
     void putMoneyForAtmInNoExistCellTest() {
-        var rubles = Rubles.getInstance();
         Atm atm = AtmImpl.create(
-                new AtmCellDefinition(rubles.getByNominal(5), 100),
-                new AtmCellDefinition(rubles.getByNominal(10), 100)
+                new AtmCellDefinition(Rubles.getByNominal(5), 100),
+                new AtmCellDefinition(Rubles.getByNominal(10), 100)
         );
         var expectedSumInAtm = 0;
 
         assertThrows(NoCellForBanknoteException.class, () ->
                 atm.putMoneyToAtm(BanknotesHandler.toMap(
-                        new Banknotes(rubles.getByNominal(5), 11),
-                        new Banknotes(rubles.getByNominal(10), 1),
-                        new Banknotes(rubles.getByNominal(100), 11)
+                        new Banknotes(Rubles.getByNominal(5), 11),
+                        new Banknotes(Rubles.getByNominal(10), 1),
+                        new Banknotes(Rubles.getByNominal(100), 11)
                 ))
         );
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(5), 11),
-                new Banknotes(rubles.getByNominal(10), 1)
+                new Banknotes(Rubles.getByNominal(5), 11),
+                new Banknotes(Rubles.getByNominal(10), 1)
         ));
         expectedSumInAtm = 65;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         assertThrows(NoCellForBanknoteException.class, () ->
                 atm.putMoneyToAtm(BanknotesHandler.toMap(
-                        new Banknotes(rubles.getByNominal(5), 11),
-                        new Banknotes(rubles.getByNominal(10), 1),
-                        new Banknotes(rubles.getByNominal(100), 11)
+                        new Banknotes(Rubles.getByNominal(5), 11),
+                        new Banknotes(Rubles.getByNominal(10), 1),
+                        new Banknotes(Rubles.getByNominal(100), 11)
                 ))
         );
 
-        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(rubles.getByNominal(10), 1)));
+        atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(Rubles.getByNominal(10), 1)));
         expectedSumInAtm = 75;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
     }
@@ -78,44 +76,43 @@ public class AtmTests {
     @Test
     @DisplayName("Загрузка в банкомат суммы превышающая емкость ячейки")
     void putMoneyOverFullTest() {
-        var rubles = Rubles.getInstance();
         Atm atm = AtmImpl.create(
-                new AtmCellDefinition(rubles.getByNominal(1000), 20),
-                new AtmCellDefinition(rubles.getByNominal(5000), 10)
+                new AtmCellDefinition(Rubles.getByNominal(1000), 20),
+                new AtmCellDefinition(Rubles.getByNominal(5000), 10)
         );
         var expectedSumInAtm = 0;
 
         assertThrows(AtmFullException.class, () ->
-                atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(rubles.getByNominal(1000), 22)))
+                atm.putMoneyToAtm(BanknotesHandler.toMap(new Banknotes(Rubles.getByNominal(1000), 22)))
         );
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(1000), 19),
-                new Banknotes(rubles.getByNominal(5000), 9)
+                new Banknotes(Rubles.getByNominal(1000), 19),
+                new Banknotes(Rubles.getByNominal(5000), 9)
         ));
         expectedSumInAtm = 64_000;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         assertThrows(AtmFullException.class, () ->
                 atm.putMoneyToAtm(BanknotesHandler.toMap(
-                        new Banknotes(rubles.getByNominal(1000), 2),
-                        new Banknotes(rubles.getByNominal(5000), 1)
+                        new Banknotes(Rubles.getByNominal(1000), 2),
+                        new Banknotes(Rubles.getByNominal(5000), 1)
                 ))
         );
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(1000), 1),
-                new Banknotes(rubles.getByNominal(5000), 1)
+                new Banknotes(Rubles.getByNominal(1000), 1),
+                new Banknotes(Rubles.getByNominal(5000), 1)
         ));
         expectedSumInAtm = 70_000;
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
 
         assertThrows(AtmFullException.class, () ->
                 atm.putMoneyToAtm(BanknotesHandler.toMap(
-                        new Banknotes(rubles.getByNominal(1000), 1),
-                        new Banknotes(rubles.getByNominal(5000), 1)
+                        new Banknotes(Rubles.getByNominal(1000), 1),
+                        new Banknotes(Rubles.getByNominal(5000), 1)
                 ))
         );
         assertThat(atm.getMoneyLeftInAtm()).isEqualTo(expectedSumInAtm);
@@ -123,17 +120,16 @@ public class AtmTests {
 
 
     private Atm getPreparedAtm() {
-        var rubles = Rubles.getInstance();
         Atm atm = AtmImpl.create(
-                new AtmCellDefinition(rubles.getByNominal(10), 100),
-                new AtmCellDefinition(rubles.getByNominal(100), 100),
-                new AtmCellDefinition(rubles.getByNominal(500), 100),
-                new AtmCellDefinition(rubles.getByNominal(1000), 100)
+                new AtmCellDefinition(Rubles.getByNominal(10), 100),
+                new AtmCellDefinition(Rubles.getByNominal(100), 100),
+                new AtmCellDefinition(Rubles.getByNominal(500), 100),
+                new AtmCellDefinition(Rubles.getByNominal(1000), 100)
         );
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(100), 20),
-                new Banknotes(rubles.getByNominal(500), 20),
-                new Banknotes(rubles.getByNominal(1000), 20)
+                new Banknotes(Rubles.getByNominal(100), 20),
+                new Banknotes(Rubles.getByNominal(500), 20),
+                new Banknotes(Rubles.getByNominal(1000), 20)
         ));
         return atm;
     }

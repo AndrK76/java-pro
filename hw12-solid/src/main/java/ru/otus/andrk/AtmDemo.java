@@ -13,13 +13,13 @@ public class AtmDemo {
         new AtmDemo().run();
     }
 
+    //Пример использования, детальнее в тестах
     void run() {
-        var rubles = Rubles.getInstance();
         var atm = makeAtm();
         atm.putMoneyToAtm(BanknotesHandler.toMap(
-                new Banknotes(rubles.getByNominal(50), 23),
-                new Banknotes(rubles.getByNominal(200), 10),
-                new Banknotes(rubles.getByNominal(1000), 10)
+                new Banknotes(Rubles.getByNominal(50), 23),
+                new Banknotes(Rubles.getByNominal(200), 10),
+                new Banknotes(Rubles.getByNominal(1000), 10)
         ));
         showMoneyLeft(atm);
 
@@ -59,17 +59,16 @@ public class AtmDemo {
 
 
     Atm makeAtm() {
-        var rubles = Rubles.getInstance();
         return AtmImpl.create(
-                new AtmCellDefinition(rubles.getByNominal(5), 100),
-                new AtmCellDefinition(rubles.getByNominal(10), 100),
-                new AtmCellDefinition(rubles.getByNominal(50), 100),
-                new AtmCellDefinition(rubles.getByNominal(100), 200),
-                new AtmCellDefinition(rubles.getByNominal(200), 20),
-                new AtmCellDefinition(rubles.getByNominal(500), 200),
-                new AtmCellDefinition(rubles.getByNominal(1000), 200),
-                new AtmCellDefinition(rubles.getByNominal(2000), 100),
-                new AtmCellDefinition(rubles.getByNominal(5000), 100)
+                new AtmCellDefinition(Rubles.getByNominal(5), 100),
+                new AtmCellDefinition(Rubles.getByNominal(10), 100),
+                new AtmCellDefinition(Rubles.getByNominal(50), 100),
+                new AtmCellDefinition(Rubles.getByNominal(100), 200),
+                new AtmCellDefinition(Rubles.getByNominal(200), 20),
+                new AtmCellDefinition(Rubles.getByNominal(500), 200),
+                new AtmCellDefinition(Rubles.getByNominal(1000), 200),
+                new AtmCellDefinition(Rubles.getByNominal(2000), 100),
+                new AtmCellDefinition(Rubles.getByNominal(5000), 100)
         );
     }
 }

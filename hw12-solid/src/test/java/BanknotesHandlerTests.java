@@ -15,11 +15,10 @@ public class BanknotesHandlerTests {
 
     @BeforeEach
     void makeSample() {
-        var rubles = Rubles.getInstance();
         var arrBanknotes = new Banknotes[]{
-                new Banknotes(rubles.getByNominal(10), 5),
-                new Banknotes(rubles.getByNominal(100), 2),
-                new Banknotes(rubles.getByNominal(1000), 3),
+                new Banknotes(Rubles.getByNominal(10), 5),
+                new Banknotes(Rubles.getByNominal(100), 2),
+                new Banknotes(Rubles.getByNominal(1000), 3),
         };
         sample = Arrays.asList(arrBanknotes);
     }
@@ -57,7 +56,7 @@ public class BanknotesHandlerTests {
     void sumTest() {
         var sample = BanknotesHandler.toListBanknote(this.sample);
         assertThat(BanknotesHandler.sum(sample)).isEqualTo(3_250);
-        sample.add(Rubles.getInstance().getByNominal(5000));
+        sample.add(Rubles.getByNominal(5000));
         assertThat(BanknotesHandler.sum(sample)).isEqualTo(8_250);
     }
 }

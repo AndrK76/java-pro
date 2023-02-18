@@ -22,7 +22,7 @@ public final class AtmCellImpl implements AtmCell {
 
     public void tryAdd(Integer count) {
         checkCountArgument(count);
-        if (this.count + count > this.capacity) {
+        if (this.count() + count > this.capacity()) {
             throw new CellFullException();
         }
     }
@@ -34,7 +34,7 @@ public final class AtmCellImpl implements AtmCell {
 
     public void tryGet(Integer count) {
         checkCountArgument(count);
-        if (this.count - count < 0) {
+        if (this.count() - count < 0) {
             throw new NoHaveBanknoteException();
         }
     }
