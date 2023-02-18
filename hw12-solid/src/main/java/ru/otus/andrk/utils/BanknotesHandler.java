@@ -30,4 +30,7 @@ public class BanknotesHandler {
                 .map(r -> new Banknotes(r.getKey(), r.getValue().intValue()))
                 .collect(Collectors.toList());
     }
+    public static Integer sum(List<Banknote> banknotes){
+        return banknotes.stream().map(v->v.nominal()).reduce(0, (a,b)->a+b);
+    }
 }

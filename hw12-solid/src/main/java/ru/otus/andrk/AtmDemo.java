@@ -1,8 +1,8 @@
 package ru.otus.andrk;
 
-import ru.otus.andrk.atm.AtmCell;
-import ru.otus.andrk.atm.AtmInstance;
+import ru.otus.andrk.atm.AtmImpl;
 import ru.otus.andrk.domain.Atm;
+import ru.otus.andrk.domain.AtmCellDefinition;
 import ru.otus.andrk.rubles.Rubles;
 import ru.otus.andrk.utils.Banknotes;
 import ru.otus.andrk.utils.BanknotesHandler;
@@ -47,29 +47,29 @@ public class AtmDemo {
             var banknotes = atm.getMoneyFromAtm(debit);
             System.out.println("Выдано: ");
             BanknotesHandler.groupByBanknote(banknotes).forEach(x -> System.out.println("\t" + x));
+            System.out.println(" Сумма=" + BanknotesHandler.sum(banknotes));
         } catch (Exception e) {
             System.out.println("Ошибка выдачи: " + e.getMessage() + " (" + e.getClass().getSimpleName() + ")");
         }
     }
 
-    private void showMoneyLeft(Atm atm){
-        System.out.println("Сумма в банкомате: " + atm.getMoneyLeftInAtm());
+    private void showMoneyLeft(Atm atm) {
+        System.out.println("Остаток в банкомате: " + atm.getMoneyLeftInAtm());
     }
 
 
     Atm makeAtm() {
         var rubles = Rubles.getInstance();
-        var atm = new AtmInstance(
-                new AtmCell(rubles.getByNominal(5), 100),
-                new AtmCell(rubles.getByNominal(10), 100),
-                new AtmCell(rubles.getByNominal(50), 100),
-                new AtmCell(rubles.getByNominal(100), 200),
-                new AtmCell(rubles.getByNominal(200), 20),
-                new AtmCell(rubles.getByNominal(500), 200),
-                new AtmCell(rubles.getByNominal(1000), 200),
-                new AtmCell(rubles.getByNominal(2000), 100),
-                new AtmCell(rubles.getByNominal(5000), 100)
+        return AtmImpl.create(
+                new AtmCellDefinition(rubles.getByNominal(5), 100),
+                new AtmCellDefinition(rubles.getByNominal(10), 100),
+                new AtmCellDefinition(rubles.getByNominal(50), 100),
+                new AtmCellDefinition(rubles.getByNominal(100), 200),
+                new AtmCellDefinition(rubles.getByNominal(200), 20),
+                new AtmCellDefinition(rubles.getByNominal(500), 200),
+                new AtmCellDefinition(rubles.getByNominal(1000), 200),
+                new AtmCellDefinition(rubles.getByNominal(2000), 100),
+                new AtmCellDefinition(rubles.getByNominal(5000), 100)
         );
-        return atm;
     }
 }
