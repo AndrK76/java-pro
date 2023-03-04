@@ -1,8 +1,9 @@
-package ru.otus.processor;
+package ru.otus.processor.homework;
 
 import ru.otus.model.Message;
+import ru.otus.processor.Processor;
 
-public class ProcessorSwitchFields implements Processor{
+public class ProcessorSwitchFields implements Processor {
     @Override
     public Message process(Message message) {
         String field11old = message.getField11();
