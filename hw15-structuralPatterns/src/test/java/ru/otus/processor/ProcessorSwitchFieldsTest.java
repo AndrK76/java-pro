@@ -10,7 +10,7 @@ public class ProcessorSwitchFieldsTest {
 
     @Test
     @DisplayName("Проверка процессора переставляющего field11 и field12")
-    void testProcessorSwitchFields(){
+    void testProcessor(){
         final String value11 = "VALUE11";
         final String value12 = "VALUE12";
 
