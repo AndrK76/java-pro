@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
@@ -49,10 +50,14 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     }
 
     private void parseEntity() {
-        constructor = Arrays.stream(entityClass.getConstructors())
-                .filter(s -> s.getParameterCount() == 0)
-                .findFirst().get();
-        Arrays.stream(entityClass.getFields()).forEach((field) -> {
+        try{
+            constructor = Arrays.stream(entityClass.getConstructors())
+                    .filter(s -> s.getParameterCount() == 0)
+                    .findFirst().get();
+        } catch (NoSuchElementException e){
+            throw new ReflectMetadataException(String.format("Для класса %s не найден конструктор без параметров", getName()));
+        }
+        Arrays.stream(entityClass.getDeclaredFields()).forEach((field) -> {
             if (field.isAnnotationPresent(Id.class)) {
                 idField = field;
             } else {
@@ -60,6 +65,12 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
             }
             allFields.add(field);
         });
+        if (idField == null){
+            throw new ReflectMetadataException(String.format("В классе %s не найдено поле с аннотацией @Id", getName()));
+        }
+        if (fieldsWithoutId.size()==0){
+            throw new ReflectMetadataException(String.format("В классе %s не найдено изменяемых полей", getName()));
+        }
 
     }
 
