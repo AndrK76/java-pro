@@ -3,10 +3,8 @@ package ru.otus.jdbc.mapper;
 import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.repository.DataTemplateException;
 import ru.otus.core.repository.executor.DbExecutor;
-import ru.otus.crm.model.Client;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Сохратяет объект в базу, читает объект из базы
@@ -60,19 +59,29 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
     }
 
     @Override
-    public long insert(Connection connection, T client) {
-        throw new UnsupportedOperationException();
+    public long insert(Connection connection, T entity) {
+        try {
+            return dbExecutor.executeStatement(connection, entitySQLMetaData.getInsertSql(),
+                    serializeEntityToList(entity, false));
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
     }
 
     @Override
-    public void update(Connection connection, T client) {
-        throw new UnsupportedOperationException();
+    public void update(Connection connection, T entity) {
+        try {
+            dbExecutor.executeStatement(connection, entitySQLMetaData.getUpdateSql(),
+                    serializeEntityToList(entity, true));
+        } catch (Exception e) {
+            throw new DataTemplateException(e);
+        }
     }
 
     private T deserializeFromResultSet(ResultSet rs) {
         try {
             T result = entityClassMetaData.getConstructor().newInstance();
-            entityClassMetaData.getAllFields().stream().forEach(r -> {
+            entityClassMetaData.getAllFields().forEach(r -> {
                 try {
                     setFieldValue(result, r, rs.getObject(r.getName()));
                 } catch (SQLException e) {
@@ -89,6 +98,25 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         field.setAccessible(true);
         try {
             field.set(result, value);
+        } catch (IllegalAccessException e) {
+            throw new DataTemplateException(new ReflectMetadataException(e));
+        }
+    }
+
+    private List<Object> serializeEntityToList(T entity, boolean appendId) {
+        var fieldList = entityClassMetaData.getFieldsWithoutId();
+        if (appendId) {
+            fieldList.add(entityClassMetaData.getIdField());
+        }
+        return fieldList.stream()
+                .map(r -> getFieldValue(entity, r))
+                .collect(Collectors.toList());
+    }
+
+    private Object getFieldValue(T entity, Field field) {
+        field.setAccessible(true);
+        try {
+            return field.get(entity);
         } catch (IllegalAccessException e) {
             throw new DataTemplateException(new ReflectMetadataException(e));
         }

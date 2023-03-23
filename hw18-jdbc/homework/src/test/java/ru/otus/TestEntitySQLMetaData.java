@@ -2,8 +2,6 @@ package ru.otus;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.otus.crm.model.Client;
-import ru.otus.crm.model.Manager;
 import ru.otus.jdbc.mapper.EntityClassMetaData;
 import ru.otus.jdbc.mapper.EntityClassMetaDataImpl;
 import ru.otus.jdbc.mapper.EntitySQLMetaData;

@@ -25,7 +25,7 @@ public class TestEntityClassMetaData {
     @Test
     @DisplayName("Проверка обработки класса без @Id")
     void noIdFieldTest() {
-        assertThrows(ReflectMetadataException.class, () -> {var entityClassMetaData = new EntityClassMetaDataImpl<>(SampleEntityWithoutId.class);});
+        assertThrows(ReflectMetadataException.class, () -> new EntityClassMetaDataImpl<>(SampleEntityWithoutId.class));
     }
 
 
@@ -41,7 +41,7 @@ public class TestEntityClassMetaData {
     @Test
     @DisplayName("Проверка обработки класса без конструктора по умолчанию")
     void noDefaultConstructorTest() {
-        assertThrows(ReflectMetadataException.class, () -> {var entityClassMetaData = new EntityClassMetaDataImpl<>(SampleEntityWithoutConstructor.class);});
+        assertThrows(ReflectMetadataException.class, () -> new EntityClassMetaDataImpl<>(SampleEntityWithoutConstructor.class));
     }
 
 
@@ -57,7 +57,7 @@ public class TestEntityClassMetaData {
     @Test
     @DisplayName("Проверка обработки класса без столбцов данных")
     void noDataFieldsTest() {
-        assertThrows(ReflectMetadataException.class, () -> {var entityClassMetaData = new EntityClassMetaDataImpl<>(SampleEntityWithoutFields.class);});
+        assertThrows(ReflectMetadataException.class, () -> new EntityClassMetaDataImpl<>(SampleEntityWithoutFields.class));
     }
 
 

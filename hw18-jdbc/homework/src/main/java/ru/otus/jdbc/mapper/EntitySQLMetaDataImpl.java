@@ -1,5 +1,6 @@
 package ru.otus.jdbc.mapper;
 
+import java.lang.reflect.Field;
 import java.util.stream.Collectors;
 
 public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
@@ -55,7 +56,7 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
             sb.append(metaInfo.getName()).append(" (");
             sb.append(metaInfo
                     .getFieldsWithoutId().stream()
-                    .map(r -> r.getName())
+                    .map(Field::getName)
                     .collect(Collectors.joining(", ")));
             sb.append(") values (");
             sb.append(metaInfo
@@ -70,9 +71,7 @@ public class EntitySQLMetaDataImpl implements EntitySQLMetaData {
             StringBuilder sb = new StringBuilder("update ");
             sb.append(metaInfo.getName()).append(" set ");
             sb.append(metaInfo.getFieldsWithoutId().stream()
-                    .map(r -> {
-                        return new StringBuilder().append(r.getName()).append(" = ?").toString();
-                    })
+                    .map(r -> new StringBuilder().append(r.getName()).append(" = ?").toString())
                     .collect(Collectors.joining(", ")));
             sb.append(" where ").append(metaInfo.getIdField().getName()).append(" = ?");
             updateSql = sb.toString();
