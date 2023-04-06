@@ -75,7 +75,6 @@ class HomeworkTest {
                     .isEqualTo(client);
             }
         }
-    /*
 
         @Test
         public void testForHomeworkRequirementsForClientReferences() throws Exception {
@@ -83,14 +82,12 @@ class HomeworkTest {
                     List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333")));
             assertThatClientHasCorrectReferences(client);
         }
-
         @Test
         public void testForHomeworkRequirementsForClonedClientReferences() throws Exception {
             var client = new Client(null, "Vasya", new Address(null, "AnyStreet"),
                     List.of(new Phone(null, "13-555-22"), new Phone(null, "14-666-333"))).clone();
             assertThatClientHasCorrectReferences(client);
         }
-    */
     private void assertThatClientHasCorrectReferences(Client client) throws IllegalAccessException {
         var hasAddress = false;
         var hasPhones = false;

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "phone")
 public class Phone implements Cloneable {
     @Id
-    @Column(name = "id`")
+    @Column(name = "id")
     @SequenceGenerator(name = "phone_gen", sequenceName = "phone_seq",
             initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phone_gen")
@@ -22,9 +22,20 @@ public class Phone implements Cloneable {
     @Column(name = "number")
     private String number;
 
-    public Phone(String number) {
-        this(null,number);
+    @ManyToOne()
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+
+    public Phone(Long id, String number){
+        this(id,number,null);
     }
+
+    public Phone(String number) {
+        this(null,number, null);
+    }
+
+
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
