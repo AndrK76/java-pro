@@ -20,4 +20,7 @@ public interface HwCache<K, V> {
 
     //Для эксперимента с side-эффектом когда Idea предлагает упростить код
     void removeListener(WeakReference<HwListener<K, V>> listenerRef);
+
+    //Для проверок размера кэша
+    int getCacheSize();
 }

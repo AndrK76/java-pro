@@ -40,6 +40,7 @@ public class DbServiceClientImpl implements DBServiceClient {
         return transactionManager.doInReadOnlyTransaction(session -> {
             var clientOptional = clientDataTemplate.findById(session, id);
             log.info("client: {}", clientOptional);
+            session.clear(); //Clear hibernate cache
             return clientOptional;
         });
     }

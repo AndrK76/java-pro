@@ -74,6 +74,11 @@ public class MyCache<K, V> implements HwCache<K, V> {
         listeners.remove(listenerRef);
     }
 
+    @Override
+    public int getCacheSize() {
+        return store.size();
+    }
+
     private void notify(K key, V value, String action) {
         var liveListeners = listeners.stream()
                 .map(Reference::get)

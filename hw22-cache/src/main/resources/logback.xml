@@ -24,8 +24,10 @@
         <appender-ref ref="trace-rolling"/>
     </logger>
 
-    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org" level="ERROR"/>
+    <logger name="SQL dialect" level="ERROR"/>
     <logger name="ch.qos.logback" level="ERROR"/>
+    <logger name="ru.otus.crm" level="ERROR"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
