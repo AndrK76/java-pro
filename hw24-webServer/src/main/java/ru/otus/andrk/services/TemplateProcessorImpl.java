@@ -3,6 +3,7 @@ package ru.otus.andrk.services;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import ru.otus.services.TemplateProcessor;
 
 import java.io.IOException;
 import java.io.StringWriter;

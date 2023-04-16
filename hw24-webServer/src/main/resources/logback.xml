@@ -3,7 +3,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{48} - %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -26,11 +26,13 @@
     </logger>
     -->
 
-    <logger name="org" level="ERROR"/>
+
+    <!--
     <logger name="SQL dialect" level="ERROR"/>
     <logger name="ch.qos.logback" level="ERROR"/>
+    -->
 
-    <logger name="ru.otus.andrk" level="TRACE"/>
+    <logger name="ru.otus" level="TRACE"/>
 
 
     <root level="INFO">

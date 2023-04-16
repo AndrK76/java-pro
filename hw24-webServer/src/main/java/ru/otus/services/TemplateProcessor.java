@@ -1,4 +1,4 @@
-package ru.otus.andrk.services;
+package ru.otus.services;
 
 import java.io.IOException;
 import java.util.Map;

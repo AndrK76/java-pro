@@ -1,5 +1,7 @@
 package ru.otus.andrk.services;
 
+import ru.otus.services.UserAuthService;
+
 import java.util.HashMap;
 import java.util.Map;
 

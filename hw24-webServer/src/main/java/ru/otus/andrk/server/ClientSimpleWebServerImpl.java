@@ -5,14 +5,21 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.andrk.services.TemplateProcessor;
+import ru.otus.andrk.services.ClientsService;
+import ru.otus.andrk.servlets.ClientsServlet;
+import ru.otus.services.TemplateProcessor;
+import ru.otus.services.UserAuthService;
 import ru.otus.helpers.FileSystemHelper;
+import ru.otus.servlets.AuthorizationFilter;
+import ru.otus.servlets.LoginServlet;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 
 public final class ClientSimpleWebServerImpl implements SimpleWebServer {
 
@@ -23,15 +30,22 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
     private final Gson gson;
     private final TemplateProcessor templateProcessor;
 
+    private final UserAuthService authService;
+
+    private final ClientsService clientsService;
+
     private final Server server;
 
     public ClientSimpleWebServerImpl(
             InetSocketAddress address,
             Gson gson,
-            TemplateProcessor templateProcessor) {
+            TemplateProcessor templateProcessor,
+            UserAuthService authService, ClientsService clientsService) {
         this.gson = gson;
         this.templateProcessor = templateProcessor;
         this.server = new Server(address);
+        this.authService = authService;
+        this.clientsService = clientsService;
     }
 
 
@@ -62,15 +76,19 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
 
         HandlerList handlers = new HandlerList();
         handlers.addHandler(resourceHandler);
-        handlers.addHandler(applySecurity(servletContextHandler, "/users", "/api/user/*"));
+        handlers.addHandler(applySecurity(servletContextHandler, "/clients", "/api/client/*"));
 
         server.setHandler(handlers);
         log.debug("end initContext");
     }
 
-    private Handler applySecurity(ServletContextHandler servletContextHandler, String ...paths) {
+    private Handler applySecurity(ServletContextHandler servletContextHandler, String... paths) {
+        servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor, authService)), "/login");
+        AuthorizationFilter authorizationFilter = new AuthorizationFilter();
+        Arrays.stream(paths).forEachOrdered(path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
         return servletContextHandler;
     }
+
 
     private ResourceHandler createResourceHandler() {
         ResourceHandler resourceHandler = new ResourceHandler();
@@ -82,7 +100,7 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        //servletContextHandler.addServlet(new ServletHolder(new UsersServlet(templateProcessor, userDao)), "/users");
+        servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(clientsService, templateProcessor)), "/clients");
         //servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
         return servletContextHandler;
     }

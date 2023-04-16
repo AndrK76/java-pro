@@ -1,0 +1,28 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #383838;
+        --color-fg: silver;
+        --color-border: #9999bb;
+    }
+}
+
+body {
+    background-color: var(--color-bg, inherit);
+    color: var(--color-fg, inherit);
+}
+
+.data-table {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--color-border, steelblue);
+    border-collapse: collapse;
+}
+
+.data-table tr td, th {
+    border: 1px solid var(--color-border, steelblue);
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
