@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ru.otus.andrk.server.ServerSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.otus.andrk.server.ServerPages;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.services.UserAuthService;
 
@@ -16,10 +18,11 @@ import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 public class LoginServlet extends HttpServlet {
 
+    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
     private static final int MAX_INACTIVE_INTERVAL = 30;
-    private static final String LOGIN_PAGE_TEMPLATE = "login.html";
+    private static final String LOGIN_PAGE_TEMPLATE = "login.ftl";
 
 
     private final TemplateProcessor templateProcessor;
@@ -45,9 +48,11 @@ public class LoginServlet extends HttpServlet {
         if (userAuthService.authenticate(name, password)) {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
-            response.sendRedirect(ServerSettings.clientsPage);  //Единственное изменение от образца /users -> /clients
+            response.sendRedirect(ServerPages.clientsPage);
+            log.debug("login success");
         } else {
             response.setStatus(SC_UNAUTHORIZED);
+            log.debug("login failure");
         }
 
     }

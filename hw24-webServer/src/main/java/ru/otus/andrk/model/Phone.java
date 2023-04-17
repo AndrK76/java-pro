@@ -1,5 +1,6 @@
 package ru.otus.andrk.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +19,10 @@ public class Phone implements Cloneable {
     @SequenceGenerator(name = "phone_gen", sequenceName = "phone_seq",
             initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phone_gen")
+    @Expose
     private Long id;
     @Column(name = "number")
+    @Expose
     private String number;
 
     @ManyToOne()

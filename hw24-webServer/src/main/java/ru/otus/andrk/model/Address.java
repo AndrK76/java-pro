@@ -1,5 +1,6 @@
 package ru.otus.andrk.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,9 +20,11 @@ public class Address implements Cloneable {
             initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_gen")
     @Column(name = "id")
+    @Expose
     private Long id;
 
     @Column(name = "street")
+    @Expose
     private String street;
 
     public Address(String street) {

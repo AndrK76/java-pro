@@ -25,7 +25,11 @@ public class WebApp {
     }
 
     public void runServer() throws Exception {
-        Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setPrettyPrinting()
+                .create();
         log.debug("init TemplateProcessor");
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
         log.debug("init AuthService");

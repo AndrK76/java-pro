@@ -10,43 +10,51 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class InMemoryClientServiceImpl implements ClientsService{
+public class InMemoryClientServiceImpl implements ClientsService {
 
-    private final Map<Long,Client> clients;
-    private long maxId;
+    private final Map<Long, Client> clients;
+    private long lastClientId = 0;
+    private long lastAddressId = 0;
+    private long lastPhoneId = 0;
 
-    public InMemoryClientServiceImpl()
-    {
+    public InMemoryClientServiceImpl() {
 
         clients = new HashMap<>();
-        var phone = new Phone(1L, "123-456");
-        var address = new Address(1L, "1-st Street");
-        var client = new Client(1L,"Client 1",address, List.of(phone));
+        var phone = new Phone(++lastPhoneId, "123-456");
+        var address = new Address(++lastAddressId, "1-st Street");
+        var client = new Client(++lastClientId, "Client 1", address, List.of(phone));
         clients.put(client.getId(), client);
 
-        phone = new Phone(2L, "23-456-78");
-        address = new Address(2L, "2-nd Street");
-        client = new Client(2L,"Client два",address, List.of(phone));
+        phone = new Phone(++lastPhoneId, "23-456-78");
+        address = new Address(++lastAddressId, "2-nd Street");
+        client = new Client(++lastClientId, "Client два", address, List.of(phone));
         clients.put(client.getId(), client);
 
-        address = new Address(3L, "3-я улица");
-        client = new Client(3L,"Client ТРИ",address, null);
+        address = new Address(++lastAddressId, "3-я улица");
+        client = new Client(++lastClientId, "Client ТРИ", address, null);
         clients.put(client.getId(), client);
 
-        phone = new Phone(3L, "345-67-89");
-        client = new Client(4L,"Client Four",null, List.of(phone));
+        phone = new Phone(++lastPhoneId, "345-67-89");
+        client = new Client(++lastClientId, "Client Four", null, List.of(phone));
         clients.put(client.getId(), client);
-
-        maxId = client.getId();
     }
 
 
     @Override
     public Client saveClient(Client client) {
-        if (client.getId() == null){
-            client.setId(++maxId);
+        if (client.getId() == null) {
+            client.setId(++lastClientId);
         }
-        clients.remove(client.getId());
+        if (client.getAddress() != null && client.getAddress().getId() == null) {
+            client.getAddress().setId(++lastAddressId);
+        }
+        if (client.getPhones() != null) {
+            for (var phone : client.getPhones()) {
+                if (phone.getId() == null) {
+                    phone.setId(++lastPhoneId);
+                }
+            }
+        }
         clients.put(client.getId(), client);
         return client;
     }
@@ -58,6 +66,6 @@ public class InMemoryClientServiceImpl implements ClientsService{
 
     @Override
     public List<Client> findAll() {
-        return clients.entrySet().stream().map(r->r.getValue()).collect(Collectors.toList());
+        return clients.entrySet().stream().map(r -> r.getValue()).collect(Collectors.toList());
     }
 }

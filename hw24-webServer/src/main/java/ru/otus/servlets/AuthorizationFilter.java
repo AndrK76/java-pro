@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ru.otus.andrk.server.ServerPages;
 
 import java.io.IOException;
 
@@ -30,7 +31,7 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null) {
-            response.sendRedirect("/login");
+            response.sendRedirect(ServerPages.loginPage);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
