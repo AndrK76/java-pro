@@ -100,7 +100,7 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(clientsService, templateProcessor)), "/clients");
+        servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(clientsService, templateProcessor)), ServerSettings.clientsPage);
         //servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
         return servletContextHandler;
     }

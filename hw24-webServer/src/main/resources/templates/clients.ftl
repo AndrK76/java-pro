@@ -42,5 +42,26 @@
     </#list>
     </tbody>
 </table>
+<hr/>
+<div class="form-new">
+    <h3>Новый клиент</h3>
+    <form action="${page_address}" method="post">
+        <label for="client_name" class="input-label">Имя:</label>
+        <input type="text" id="client_name" name="name" class="input-item" placeholder="Имя клиента"/>
+        <#if err_msg?has_content>
+            <span class="error-item">${err_msg}</span>
+        </#if>
+        <br/><br/>
+        <label for="client_address" class="input-label">Адрес:</label>
+        <input type="text" id="client_address" name="address" class="input-item"
+               placeholder="Улица" value="${address}"/>
+        <br/><br/>
+        <label for="client_phone" class="input-label">Телефон:</label>
+        <input type="text" id="client_phone" name="phone" class="input-item"
+               placeholder="Номер" value="${phone}"/>
+        <br/><br/>
+        <input type="submit" value="Добавить"/>
+    </form>
+</div>
 </body>
 </html>

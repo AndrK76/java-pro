@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ru.otus.andrk.server.ServerSettings;
 import ru.otus.services.TemplateProcessor;
 import ru.otus.services.UserAuthService;
 
@@ -44,7 +45,7 @@ public class LoginServlet extends HttpServlet {
         if (userAuthService.authenticate(name, password)) {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
-            response.sendRedirect("/clients");  //Единственное изменение от образца /users -> /clients
+            response.sendRedirect(ServerSettings.clientsPage);  //Единственное изменение от образца /users -> /clients
         } else {
             response.setStatus(SC_UNAUTHORIZED);
         }
