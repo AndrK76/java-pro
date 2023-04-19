@@ -65,11 +65,11 @@ public class ClientApiServlet extends HttpServlet {
         return out;
     }
 
-    private void writeClientToOut(ServletOutputStream out, Optional<Client> user) throws IOException {
-        if (user.isPresent()){
-            out.print(gson.toJson(user.get()));
+    private void writeClientToOut(ServletOutputStream out, Optional<Client> client) throws IOException {
+        if (client.isPresent()){
+            out.print(gson.toJson(client.get()));
         } else{
-            out.print(gson.toJson(user));
+            out.print(gson.toJson(client));
         }
     }
 
