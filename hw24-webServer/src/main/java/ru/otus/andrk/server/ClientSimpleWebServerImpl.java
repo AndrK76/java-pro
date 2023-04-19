@@ -5,6 +5,7 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import ru.otus.servlets.AuthorizationFilter;
 import ru.otus.servlets.LoginServlet;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 
 public final class ClientSimpleWebServerImpl implements SimpleWebServer {
 
@@ -87,7 +89,7 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
         log.debug("start apply security");
         servletContextHandler.addServlet(new ServletHolder(new LoginServlet(templateProcessor, authService)), ServerPages.loginPage);
         AuthorizationFilter authorizationFilter = new AuthorizationFilter();
-        //Arrays.stream(paths).forEachOrdered(path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
+        Arrays.stream(paths).forEachOrdered(path -> servletContextHandler.addFilter(new FilterHolder(authorizationFilter), path, null));
         return servletContextHandler;
     }
 
@@ -106,7 +108,6 @@ public final class ClientSimpleWebServerImpl implements SimpleWebServer {
         servletContextHandler.addServlet(new ServletHolder(new ClientsServlet(clientsService, templateProcessor)), ServerPages.clientsPage);
         servletContextHandler.addServlet(new ServletHolder(new Clients2Servlet(templateProcessor)), ServerPages.clientsWithApiPage);
         servletContextHandler.addServlet(new ServletHolder(new ClientApiServlet(clientsService, gson)), ServerPages.clientApi);
-        //servletContextHandler.addServlet(new ServletHolder(new UsersApiServlet(userDao, gson)), "/api/user/*");
         return servletContextHandler;
     }
 

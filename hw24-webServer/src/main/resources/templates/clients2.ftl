@@ -1,14 +1,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+
 <head>
-    <link rel="stylesheet" href="css/default.css">
+    <script>
+        const apiUrl = "${api_address}";
+    </script>
+
+    <link rel="stylesheet" href="/css/default.css">
+    <script src="/js/jquery.min.js"></script>
     <title>Клиенты (API + AJAX)</title>
 </head>
 
 <body>
-
-<a href="/">Главная</a>
+<a href="/">Главная</a>&nbsp;&nbsp;
 <a href="${page_address}">Вариант без API</a>
-<table class="data-table">
+&nbsp;&nbsp;Вариант с API
+
+<table class="data-table" id="listTable">
     <thead>
     <tr>
         <th colspan="3">Все клиенты</th>
@@ -24,24 +31,30 @@
     <tbody>
     </tbody>
 </table>
-<hr/>
+
+<hr />
+
 <div class="form-new">
     <h3>Новый клиент</h3>
     <form>
         <label for="client_name" class="input-label">Имя:</label>
-        <input type="text" id="client_name" name="name" class="input-item" placeholder="Имя клиента"/>
+        <input type="text" id="client_name" name="name" class="input-item" placeholder="Имя клиента" />
         <span class="error-item" id="error-item"></span>
-        <br/><br/>
+        <br /><br />
         <label for="client_address" class="input-label">Адрес:</label>
-        <input type="text" id="client_address" name="address" class="input-item"
-               placeholder="Улица"/>
-        <br/><br/>
+        <input type="text" id="client_address" name="address" class="input-item" placeholder="Улица" />
+        <br /><br />
         <label for="client_phone" class="input-label">Телефон:</label>
-        <input type="text" id="client_phone" name="phone" class="input-item"
-               placeholder="Номер"/>
-        <br/><br/>
-        <input type="button" value="Добавить"/>
+        <input type="text" id="client_phone" name="phone" class="input-item" placeholder="Номер" />
+        <br /><br />
+        <input type="button" value="Добавить" id="addButton" />
     </form>
 </div>
+
+<script src="/js/client.js"></script>
+
+</script>
+
 </body>
+
 </html>

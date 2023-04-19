@@ -14,7 +14,7 @@ function setRowCount() {
     //console.log('row count: ' + rowCount);
 }
 
-$.getJSON("http://localhost:8080/api/client/", function (data) {
+$.getJSON(apiUrl, function (data) {
     $.each(data, function (key, val) {
         addRow(val);
     });
@@ -49,11 +49,12 @@ $('#addButton').click(function () {
         client["phones2"] = phones;
     }
     //console.log("send:" + JSON.stringify(client));
-    $.post("http://localhost:8080/api/client/", JSON.stringify(client),
+    $.post(apiUrl, JSON.stringify(client),
         function (data, status) {
             //console.log('status: ' + status);
             //console.log('data: ' + JSON.stringify(data));
             addRow(data);
+            setRowCount();
             $('#client_name').val('');
             $('#client_address').val('');
             $('#client_phone').val('');

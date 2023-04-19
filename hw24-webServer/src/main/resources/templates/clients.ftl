@@ -6,7 +6,8 @@
 
 <body>
 
-<a href="/">Главная</a>
+<a href="/">Главная</a>&nbsp;&nbsp;
+Вариант без API&nbsp;&nbsp;
 <a href="${page2_address}">Вариант с API</a>
 <table class="data-table">
     <thead>

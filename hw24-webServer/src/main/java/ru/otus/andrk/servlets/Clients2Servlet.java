@@ -20,6 +20,7 @@ public class Clients2Servlet extends HttpServlet {
     private static final String CLIENTS_PAGE_TEMPLATE = "clients2.ftl";
     private static final String TEMPLATE_CLIENTS_PAGE_ADDRESS = "page_address";
     private static final String TEMPLATE_CLIENTS2_PAGE_ADDRESS = "page2_address";
+    private static final String TEMPLATE_CLIENTS_API_ADDRESS = "api_address";
 
 
     private final TemplateProcessor templateProcessor;
@@ -40,6 +41,7 @@ public class Clients2Servlet extends HttpServlet {
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put(TEMPLATE_CLIENTS_PAGE_ADDRESS, ServerPages.clientsPage);
         paramsMap.put(TEMPLATE_CLIENTS2_PAGE_ADDRESS, ServerPages.clientsWithApiPage);
+        paramsMap.put(TEMPLATE_CLIENTS_API_ADDRESS, ServerPages.clientApiRoot);
         return paramsMap;
     }
 
