@@ -14,11 +14,11 @@ import ru.otus.andrk.services.ClientsService;
 import ru.otus.andrk.servlets.ClientApiServlet;
 import ru.otus.andrk.servlets.Clients2Servlet;
 import ru.otus.andrk.servlets.ClientsServlet;
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.UserAuthService;
-import ru.otus.helpers.FileSystemHelper;
-import ru.otus.servlets.AuthorizationFilter;
-import ru.otus.servlets.LoginServlet;
+import ru.otus.andrk.services.TemplateProcessor;
+import ru.otus.andrk.services.UserAuthService;
+import ru.otus.andrk.helpers.FileSystemHelper;
+import ru.otus.andrk.servlets.AuthorizationFilter;
+import ru.otus.andrk.servlets.LoginServlet;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;

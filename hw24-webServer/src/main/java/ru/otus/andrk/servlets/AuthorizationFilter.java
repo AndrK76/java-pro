@@ -1,4 +1,4 @@
-package ru.otus.servlets;
+package ru.otus.andrk.servlets;
 
 
 import jakarta.servlet.*;

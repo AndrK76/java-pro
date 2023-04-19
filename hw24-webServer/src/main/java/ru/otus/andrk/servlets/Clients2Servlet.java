@@ -8,7 +8,7 @@ import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.andrk.server.ServerPages;
-import ru.otus.services.TemplateProcessor;
+import ru.otus.andrk.services.TemplateProcessor;
 
 import java.io.IOException;
 import java.util.HashMap;

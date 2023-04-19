@@ -1,4 +1,4 @@
-package ru.otus.servlets;
+package ru.otus.andrk.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.andrk.server.ServerPages;
-import ru.otus.services.TemplateProcessor;
-import ru.otus.services.UserAuthService;
+import ru.otus.andrk.services.TemplateProcessor;
+import ru.otus.andrk.services.UserAuthService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
     private static final String PARAM_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
-    private static final int MAX_INACTIVE_INTERVAL = 30;
+    private static final int MAX_INACTIVE_INTERVAL = 300;
     private static final String LOGIN_PAGE_TEMPLATE = "login.ftl";
 
 

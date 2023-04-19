@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public class ClientApiServlet extends HttpServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(ClientsServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(ClientApiServlet.class);
     private static final int ID_PATH_PARAM_POSITION = 3;
     private final ClientsService clientsService;
     private final Gson gson;

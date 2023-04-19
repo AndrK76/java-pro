@@ -5,7 +5,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.services.TemplateProcessor;
 
 import java.io.IOException;
 import java.io.StringWriter;

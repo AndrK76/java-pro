@@ -46,7 +46,7 @@ $('#addButton').click(function () {
         let phone = {};
         phone["number"] = phoneNum;
         phones.push(phone);
-        client["phones2"] = phones;
+        client["phones"] = phones;
     }
     //console.log("send:" + JSON.stringify(client));
     $.post(apiUrl, JSON.stringify(client),
