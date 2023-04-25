@@ -1,4 +1,4 @@
-package ru.otus.config;
+package ru.otus.appcontainer.exceptions;
 
 public class ConfigurationNoExistComponentException extends RuntimeException {
 
