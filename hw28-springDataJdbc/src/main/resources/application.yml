@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5430/demoDB
+#    username: usr
+#    password: pwd
+
+logging:
+  level:
+    root: ERROR
+    ru.otus: DEBUG
