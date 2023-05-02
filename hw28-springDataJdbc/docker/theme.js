@@ -25,7 +25,7 @@ var currTheme
 
     setTheme(getPreferredTheme())
 
-    window.onload = () => {
+    window.onload = () =>{
         if (currTheme == 'dark') {
             let obj1 = document.querySelector(".btn-outline-dark");
             obj1.classList.remove('btn-outline-dark');

@@ -19,9 +19,15 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/fragments/{fragment}")
-    public String fragments(@PathVariable String fragment, Model model) {
-        log.debug("get fragments {}",fragment);
-        return "fragments/" + fragment;
+    @GetMapping("/clients")
+    public String clients(Model model) {
+        log.debug("get clients");
+        return "clients";
+    }
+
+    @GetMapping("/clients_ajax")
+    public String clients_ajax(Model model) {
+        log.debug("get clients_ajax");
+        return "clients_ajax";
     }
 }
