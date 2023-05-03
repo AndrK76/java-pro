@@ -33,6 +33,11 @@ var currTheme
             obj1 = document.querySelector(".btn-dark");
             obj1.classList.remove('btn-dark');
             obj1.classList.add('btn-light');
+            obj1 = document.querySelector(".table-light");
+            if (obj1 != null) {
+                obj1.classList.remove('table-light');
+                obj1.classList.add('table-dark');
+            }
         }
     }
 

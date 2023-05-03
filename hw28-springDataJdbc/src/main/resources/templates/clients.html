@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head th:include="fragments/general.html :: header(title='Управление')">
-<title>Главная</title>
+    <title>Главная</title>
 </head>
 <body>
 
@@ -11,10 +11,31 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2>Работа с клиентами</h2>
+            <table class="table table-bordered table-hover">
+                <caption th:text="'Всего: '+ ${clientList.size()}">Всего: 1</caption>
+                <thead class="table-light">
+                <tr>
+                    <th colspan="4">Все клиенты</th>
+                </tr>
+                <tr class="col-header">
+                    <th>Id</th>
+                    <th>Имя</th>
+                    <th>Адрес</th>
+                    <th>Телефон</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="client : ${clientList}" th:with="hasPhone = (${client.phones} != null and ${client.phones.size()} &gt; 0)">
+                    <td th:text="${client.id}">1</td>
+                    <td th:text="${client.name}">&lt;Имя&gt;</td>
+                    <td th:text="${client.address?.street}">&lt;Адрес&gt;</td>
+                    <td th:text="${hasPhone} ? ${client.phones[0].number}">&lt;Телефон&gt;</td>
+                </tr>
+
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
 </body>
 </html>

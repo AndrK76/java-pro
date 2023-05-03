@@ -1,10 +1,13 @@
 server:
-  port: 8080
+  port: 8090
 spring:
 #  datasource:
 #    url: jdbc:postgresql://localhost:5430/demoDB
 #    username: usr
 #    password: pwd
+
+services:
+  clientService: inmemory
 
 logging:
   level:
