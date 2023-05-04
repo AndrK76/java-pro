@@ -9,14 +9,14 @@
 </nav>
 
 <div class="container">
+    <div class="row g-3 align-items-center mb-2 mt-3">
+        <h2>Все клиенты</h2>
+    </div>
     <div class="row">
         <div class="col">
             <table class="table table-bordered table-hover">
                 <caption th:text="'Всего: '+ ${clientList.size()}">Всего: 1</caption>
                 <thead class="table-light">
-                <tr>
-                    <th colspan="4">Все клиенты</th>
-                </tr>
                 <tr class="col-header">
                     <th>Id</th>
                     <th>Имя</th>
@@ -25,7 +25,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="client : ${clientList}" th:with="hasPhone = (${client.phones} != null and ${client.phones.size()} &gt; 0)">
+                <tr th:each="client : ${clientList}"
+                    th:with="hasPhone = (${client.phones} != null and ${client.phones.size()} &gt; 0)">
                     <td th:text="${client.id}">1</td>
                     <td th:text="${client.name}">&lt;Имя&gt;</td>
                     <td th:text="${client.address?.street}">&lt;Адрес&gt;</td>
@@ -35,6 +36,34 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="row">
+        <form method="post">
+            <div class="row g-3 align-items-center mb-2 mt-3">
+                <h2>Новый клиент</h2>
+            </div>
+            <div class="row g-3 align-items-center mb-2">
+                <div class="col-2"><label for="inputName" class="col-form-label">Имя</label></div>
+                <div class="col-6">
+                    <input type="text" id="inputName" class="form-control" placeholder="Имя" name="name">
+                </div>
+                <!--<div class="col-auto"><span id="nameError" class="form-text error-item">Ашыпка</span></div>-->
+                <div class="col-auto"><span id="nameError" class="form-text error-item"></span></div>
+            </div>
+            <div class="row g-3 align-items-center mb-2">
+                <div class="col-2"><label for="inputAddress" class="col-form-label">Адрес</label></div>
+                <div class="col-6">
+                    <input type="text" id="inputAddress" class="form-control" placeholder="Адрес" name="address">
+                </div>
+            </div>
+            <div class="row g-3 align-items-center mb-2">
+                <div class="col-2"><label for="inputPhone" class="col-form-label">Телефон</label></div>
+                <div class="col-6">
+                    <input type="text" id="inputPhone" class="form-control" placeholder="Номер" name="phone">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark">Добавить</button>
+        </form>
     </div>
 </div>
 </body>

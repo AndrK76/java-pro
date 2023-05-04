@@ -27,17 +27,31 @@ var currTheme
 
     window.onload = () => {
         if (currTheme == 'dark') {
-            let obj1 = document.querySelector(".btn-outline-dark");
-            obj1.classList.remove('btn-outline-dark');
-            obj1.classList.add('btn-outline-light');
-            obj1 = document.querySelector(".btn-dark");
-            obj1.classList.remove('btn-dark');
-            obj1.classList.add('btn-light');
-            obj1 = document.querySelector(".table-light");
-            if (obj1 != null) {
-                obj1.classList.remove('table-light');
-                obj1.classList.add('table-dark');
-            }
+            document.querySelectorAll(".btn-outline-dark")
+                .forEach((obj) => {
+                    obj.classList.remove('btn-outline-dark');
+                    obj.classList.add("btn-outline-light");
+                });
+            document.querySelectorAll(".btn-dark.selected-page")
+                .forEach((obj) => {
+                    obj.classList.remove('btn-dark');
+                    obj.classList.add("btn-light");
+                });
+            document.querySelectorAll(".btn-light.noselected-page")
+                .forEach((obj) => {
+                    obj.classList.remove('btn-light');
+                    obj.classList.add("btn-dark");
+                });
+            document.querySelectorAll(".table-light")
+                .forEach((obj) => {
+                    obj.classList.remove('table-light');
+                    obj.classList.add("table-dark");
+                });
+            document.querySelectorAll("button.btn-dark")
+                .forEach((obj) => {
+                    obj.classList.remove('btn-dark');
+                    obj.classList.add("btn-light");
+                });
         }
     }
 

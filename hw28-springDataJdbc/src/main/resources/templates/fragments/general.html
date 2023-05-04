@@ -19,17 +19,17 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a th:if="${page} == 'index'" class="btn btn-sm btn-dark" href="/">Главная</a>
-                    <a th:unless="${page} == 'index'" class="btn btn-sm" href="/">Главная</a>
+                    <a th:if="${page} == 'index'" class="btn btn-sm btn-dark selected-page" href="/">Главная</a>
+                    <a th:unless="${page} == 'index'" class="btn btn-sm btn-light noselected-page" href="/">Главная</a>
 
                 </li>
                 <li class="nav-item">
-                    <a th:if="${page} == 'clients'" class="btn btn-sm btn-dark" href="/clients">Вариант без API</a>
-                    <a th:unless="${page} == 'clients'" class="btn btn-sm" href="/clients">Вариант без API</a>
+                    <a th:if="${page} == 'clients'" class="btn btn-sm btn-dark selected-page" href="/clients">Вариант без API</a>
+                    <a th:unless="${page} == 'clients'" class="btn btn-sm btn-light noselected-page" href="/clients">Вариант без API</a>
                 </li>
                 <li class="nav-item">
-                    <a th:if="${page} == 'clients_ajax'" class="btn btn-sm btn-dark" href="/clients_ajax">Вариант с API</a>
-                    <a th:unless="${page} == 'clients_ajax'" class="btn btn-sm" href="/clients_ajax">Вариант с API</a>
+                    <a th:if="${page} == 'clients_ajax'" class="btn btn-sm btn-dark selected-page" href="/clients_ajax">Вариант с API</a>
+                    <a th:unless="${page} == 'clients_ajax'" class="btn btn-sm btn-light noselected-page" href="/clients_ajax">Вариант с API</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-sm btn-outline-dark" href="/api/v1" target="_blank">API</a>
