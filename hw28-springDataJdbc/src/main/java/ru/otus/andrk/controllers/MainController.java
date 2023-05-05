@@ -50,6 +50,7 @@ public class MainController {
                               @RequestParam(name = "address") String address,
                               @RequestParam(name = "phone") String phone) {
         //TODO: Можно сделать DTO и её передавать (будет проще, не стал делать, без DTO с Thymeleaf интереснее поиграться получилось
+        log.debug("post client");
 
         Client client = new Client(
                 Strings.isNotBlank(name) ? name : null,
@@ -65,7 +66,7 @@ public class MainController {
         }
         model.addAttribute("clientList", clientService.findAll());
 
-        //TODO:Redirect не стал делать, хочу ошибку передавать
+        //TODO:Redirect не стал делать, хочу ошибку передавать, можно попробовать через сессию и кэш, и тогда Redirect пойдёт
         return "clients";
     }
 

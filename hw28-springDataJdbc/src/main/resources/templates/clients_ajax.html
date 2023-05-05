@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head th:include="fragments/general.html :: header(title='Работа через API')">
-<title>Главная</title>
+    <title>Главная</title>
 </head>
 <body>
+
+<script>
+    const apiUrl = "/api/v1/clients";
+</script>
 
 <nav th:replace="fragments/general.html :: menu(page='clients_ajax')">
 </nav>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Работа с клиентами</h2>
+    <div class="container">
+
+        <div class="row">
+            <form>
+                <div th:replace="fragments/general.html :: addform('','','','')"/>
+                <button type="button" class="btn btn-dark" id="addClientButton">Добавить</button>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="row g-3 align-items-center mb-2 mt-3">
+                <h2>Все клиенты</h2>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-bordered table-hover caption-top" id="listTable">
+                        <caption id="totalItem">Всего: 1</caption>
+                        <thead class="table-light">
+                        <tr class="col-header">
+                            <th>Id</th>
+                            <th>Имя</th>
+                            <th>Адрес</th>
+                            <th>Телефон</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>&lt;Имя&gt;</td>
+                            <td>&lt;Адрес&gt;</td>
+                            <td>&lt;Телефон&gt;</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 </body>
+<script src="/js/clients.js"></script>
 </html>
