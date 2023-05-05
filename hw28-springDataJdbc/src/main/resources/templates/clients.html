@@ -45,21 +45,25 @@
             <div class="row g-3 align-items-center mb-2">
                 <div class="col-2"><label for="inputName" class="col-form-label">Имя</label></div>
                 <div class="col-6">
-                    <input type="text" id="inputName" class="form-control" placeholder="Имя" name="name">
+                    <input type="text" id="inputName" class="form-control" placeholder="Имя" name="name"
+                           th:value="${newClient.name}">
                 </div>
-                <!--<div class="col-auto"><span id="nameError" class="form-text error-item">Ашыпка</span></div>-->
-                <div class="col-auto"><span id="nameError" class="form-text error-item"></span></div>
+                <div class="col-auto"><span id="nameError" class="form-text error-item"
+                                            th:text="${clientNameError.message}"></span></div>
             </div>
             <div class="row g-3 align-items-center mb-2">
                 <div class="col-2"><label for="inputAddress" class="col-form-label">Адрес</label></div>
                 <div class="col-6">
-                    <input type="text" id="inputAddress" class="form-control" placeholder="Адрес" name="address">
+                    <input type="text" id="inputAddress" class="form-control" placeholder="Адрес" name="address"
+                           th:value="${newClient.address?.street}">
                 </div>
             </div>
             <div class="row g-3 align-items-center mb-2">
                 <div class="col-2"><label for="inputPhone" class="col-form-label">Телефон</label></div>
-                <div class="col-6">
-                    <input type="text" id="inputPhone" class="form-control" placeholder="Номер" name="phone">
+                <div class="col-6"
+                     th:with="hasPhone = (${newClient.phones} != null and ${newClient.phones.size()} &gt; 0)">
+                    <input type="text" id="inputPhone" class="form-control" placeholder="Номер" name="phone"
+                           th:value="${hasPhone} ? ${newClient.phones[0].number}">
                 </div>
             </div>
             <button type="submit" class="btn btn-dark">Добавить</button>

@@ -1,15 +1,22 @@
 server:
   port: 8090
-spring:
-#  datasource:
-#    url: jdbc:postgresql://localhost:5430/demoDB
-#    username: usr
-#    password: pwd
-
 services:
   clientService: inmemory
+
+api:
+  rest-api-prefix: /api
+  rest-api-version: v1
 
 logging:
   level:
     root: ERROR
     ru.otus: DEBUG
+
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui"

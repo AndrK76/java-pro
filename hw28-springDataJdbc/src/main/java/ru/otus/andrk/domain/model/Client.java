@@ -14,16 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Client implements Cloneable {
 
-    @Expose
     private Long id;
 
-    @Expose
     private String name;
 
-    @Expose
     private Address address;
 
-    @Expose
     private List<Phone> phones;
 
 

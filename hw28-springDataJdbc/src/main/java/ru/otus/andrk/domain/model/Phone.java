@@ -1,5 +1,6 @@
 package ru.otus.andrk.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,22 +12,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Phone implements Cloneable {
-    @Expose
     private Long id;
-    @Expose
     private String number;
 
+    @JsonIgnore
     private Client client;
 
 
-    public Phone(Long id, String number){
-        this(id,number,null);
+    public Phone(Long id, String number) {
+        this(id, number, null);
     }
 
     public Phone(String number) {
-        this(null,number, null);
+        this(null, number, null);
     }
-
 
 
     @Override

@@ -11,10 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address implements Cloneable {
-    @Expose
     private Long id;
 
-    @Expose
     private String street;
 
     public Address(String street) {

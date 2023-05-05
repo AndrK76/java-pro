@@ -11,4 +11,6 @@ public interface Versions {
     String bootstrap = "5.2.3";
     String bootstrap_npm = "5.3.0-alpha3";
     String jquery = "3.6.4";
+
+    String springDocOpenapiUi = "2.0.2";
 }
