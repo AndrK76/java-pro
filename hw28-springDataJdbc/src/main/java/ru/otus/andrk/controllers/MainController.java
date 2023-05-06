@@ -16,6 +16,7 @@ import ru.otus.andrk.services.ClientsService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -55,7 +56,7 @@ public class MainController {
         Client client = new Client(
                 Strings.isNotBlank(name) ? name : null,
                 Strings.isNotBlank(address) ? new Address(address) : null,
-                Strings.isNotBlank(phone) ? List.of(new Phone(phone)) : null);
+                Strings.isNotBlank(phone) ?  Set.of(new Phone(phone)) : null);
         if (client.getName() != null){
             clientService.saveClient(client);
             model.addAttribute("clientNameError", new ClientNameError());

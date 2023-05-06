@@ -17,14 +17,15 @@ dependencies {
 
     implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui")
 
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation("com.google.code.gson:gson")
 
-    //runtimeOnly 'org.postgresql:postgresql'
+
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.flywaydb:flyway-core'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'

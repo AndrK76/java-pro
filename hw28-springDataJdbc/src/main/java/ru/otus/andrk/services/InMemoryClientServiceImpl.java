@@ -8,10 +8,7 @@ import ru.otus.andrk.domain.model.Address;
 import ru.otus.andrk.domain.model.Client;
 import ru.otus.andrk.domain.model.Phone;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,12 +26,12 @@ public class InMemoryClientServiceImpl implements ClientsService {
         clients = new HashMap<>();
         var phone = new Phone(++lastPhoneId, "123-456");
         var address = new Address(++lastAddressId, "1-st Street");
-        var client = new Client(++lastClientId, "Client 1", address, List.of(phone));
+        var client = new Client(++lastClientId, "Client 1", address, Set.of(phone));
         clients.put(client.getId(), client);
 
         phone = new Phone(++lastPhoneId, "23-456-78");
         address = new Address(++lastAddressId, "2-nd Street");
-        client = new Client(++lastClientId, "Client два", address, List.of(phone));
+        client = new Client(++lastClientId, "Client два", address, Set.of(phone));
         clients.put(client.getId(), client);
 
         address = new Address(++lastAddressId, "3-я улица");
@@ -42,7 +39,7 @@ public class InMemoryClientServiceImpl implements ClientsService {
         clients.put(client.getId(), client);
 
         phone = new Phone(++lastPhoneId, "345-67-89");
-        client = new Client(++lastClientId, "Client Four", null, List.of(phone));
+        client = new Client(++lastClientId, "Client Four", null, Set.of(phone));
         clients.put(client.getId(), client);
     }
 
