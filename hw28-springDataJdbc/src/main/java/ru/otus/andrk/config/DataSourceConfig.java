@@ -3,7 +3,6 @@ package ru.otus.andrk.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -28,28 +27,4 @@ public class DataSourceConfig {
         return ret;
     }
 
-    @Bean
-    @Primary
-    @ConfigurationProperties("spring.datasource")
-    public DataSourceProperties getDatasourceProperties() {
-        log.debug("getDatasourceProperties() start");
-        var ret  = new DataSourceProperties();
-        log.debug("getDatasourceProperties() end");
-        return  ret;
-    }
-
-    /*
-    @Bean
-    @ConfigurationProperties("app.datasource")
-    public DataSourceProperties dataSourceProperties() {
-        return new DataSourceProperties();
-    }
-
-    @Bean
-    @ConfigurationProperties("app.datasource")
-    public HikariDataSource dataSource(DataSourceProperties properties) {
-        return properties.initializeDataSourceBuilder().type(HikariDataSource.class)
-                .build();
-    }
-    */
 }

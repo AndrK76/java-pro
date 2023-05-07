@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.otus.andrk.domain.model.Address;
 import ru.otus.andrk.domain.model.Client;
 import ru.otus.andrk.domain.model.Phone;
-import ru.otus.andrk.dto.ClientNameError;
+import ru.otus.andrk.dto.ClientNameErrorDTO;
 import ru.otus.andrk.services.ClientsService;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -31,7 +29,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         log.debug("get index");
         return "index";
     }
@@ -41,7 +39,7 @@ public class MainController {
         log.debug("get clients");
         model.addAttribute("clientList", clientService.findAll());
         model.addAttribute("newClient", new Client());
-        model.addAttribute("clientNameError", new ClientNameError());
+        model.addAttribute("clientNameError", new ClientNameErrorDTO());
         return "clients";
     }
 
@@ -59,21 +57,22 @@ public class MainController {
                 Strings.isNotBlank(phone) ?  Set.of(new Phone(phone)) : null);
         if (client.getName() != null){
             clientService.saveClient(client);
-            model.addAttribute("clientNameError", new ClientNameError());
+            model.addAttribute("clientNameError", ClientNameErrorDTO.noNameError());
             model.addAttribute("newClient", new Client());
         } else{
-            model.addAttribute("clientNameError", new ClientNameError("Имя клиента должно быть заполнено"));
+            //TODO: Думаю лучше это где-то на уровне сервиса обрабатывать
+            model.addAttribute("clientNameError", ClientNameErrorDTO.emptyNameError());
             model.addAttribute("newClient", client);
         }
         model.addAttribute("clientList", clientService.findAll());
-
-        //TODO:Redirect не стал делать, хочу ошибку передавать, можно попробовать через сессию и кэш, и тогда Redirect пойдёт
+        //TODO: Redirect не стал делать, хочу ошибку передавать, можно попробовать через сессию и кэш, и тогда Redirect пойдёт
         return "clients";
     }
 
     @GetMapping("/clients_ajax")
     public String clients_ajax(Model model) {
         log.debug("get clients_ajax");
+        model.addAttribute("clientNameError", ClientNameErrorDTO.emptyNameError());
         return "clients_ajax";
     }
 }

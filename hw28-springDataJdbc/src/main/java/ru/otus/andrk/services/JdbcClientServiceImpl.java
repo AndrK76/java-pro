@@ -8,10 +8,7 @@ import ru.otus.andrk.domain.model.Client;
 import ru.otus.andrk.orm.repository.ClientRepository;
 import ru.otus.andrk.orm.sessionmanager.TransactionManager;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @ConditionalOnProperty(prefix = "services", name = "clientService", havingValue = "jdbc")
@@ -44,9 +41,7 @@ public class JdbcClientServiceImpl implements ClientsService {
     @Override
     public List<Client> findAll() {
         log.debug("start find all");
-        var clientList = new ArrayList<Client>();
-        var ret = clientRepository.findAll();
-        ret.forEach(r -> clientList.add(r));
+        List<Client> clientList =  new ArrayList<>((Collection<? extends Client>) clientRepository.findAll());
         clientList.sort(Comparator.comparing(Client::getId));
         return clientList;
     }

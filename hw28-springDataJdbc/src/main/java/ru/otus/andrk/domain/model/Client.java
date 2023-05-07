@@ -14,6 +14,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+//TODO: Правильнее разделить на Client - Понятие BL и на ClientDAL и ClientDTO
+//      относится так же и к Address и Phone
 public class Client implements Cloneable {
 
     @Id
@@ -23,10 +25,16 @@ public class Client implements Cloneable {
     private String name;
 
 
-    @MappedCollection(idColumn = "client_id")
+    //@MappedCollection(idColumn = "client_id") //Так тоже работает
+    @Column("client_id")
     private Address address;
 
-    @MappedCollection(idColumn = "client_id")
+   //TODO:(!!!) Получается для варианта с List обязательно нужна колонка сортировки?
+   //@MappedCollection(idColumn = "client_id", keyColumn = "phone_id") -- в phone_id вставим 0
+   //@MappedCollection(idColumn = "client_id", keyColumn = "client_id") -- упадём при Insert
+   //@MappedCollection(idColumn = "client_id")  - требуется колонка client_key
+   //private List<Phone> phones;
+    @MappedCollection(idColumn = "client_id", keyColumn = "client_id")
     private Set<Phone> phones;
 
 
@@ -47,8 +55,6 @@ public class Client implements Cloneable {
         this.id = id;
         this.name = name;
         this.address = address;
-        // Если this.phones = phones то при передаче null поймаем
-        // A collection with cascade="all-delete-orphan" was no longer referenced by the owning entity instance
         this.phones = phones == null ? new HashSet<>() : phones;
         if (this.phones != null) {
             this.phones.forEach(r -> r.setClient(this));

@@ -3,7 +3,7 @@ function addRow(row) {
         + '<td>' + row.id + '</td>'
         + '<td>' + row.name + '</td>'
         + '<td>' + (row.address == null ? '' : row.address.street) + '</td>'
-        + '<td>' + (row.phones == null || row.phones.length == 0 ? '' : row.phones[0].number) + '</td>'
+        + '<td>' + (row.phones == null || row.phones.length === 0 ? '' : row.phones[0].number) + '</td>'
         + '</tr>');
     //console.log(row.id + ' : ' + row.name);
 }
@@ -17,8 +17,8 @@ function setRowCount() {
 function getAndCheckName() {
     let name = $('#inputName').val();
     //console.log('name: value="' + name + '" length=' + name.length);
-    if (name.length == 0) {
-        $('#nameError').text('Имя клиента обязательно для ввода');
+    if (name.length === 0) {
+        $('#nameError').text(emptyNameErrMsg);
         return '';
     } else {
         $('#nameError').text('');
@@ -59,7 +59,7 @@ $.ajaxSetup({ contentType: "application/json; charset=utf-8" });
 $('#addClientButton').click(function () {
     //console.log('addClient click');
     let name = getAndCheckName();
-    if (name.length == 0) return;
+    if (name.length === 0) return;
     //console.log('name valid');
     let client = createClientObj(name);
     //console.log('client='+ JSON.stringify(client));

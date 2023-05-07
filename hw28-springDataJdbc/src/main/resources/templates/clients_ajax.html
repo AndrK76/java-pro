@@ -5,11 +5,13 @@
 </head>
 <body>
 
-<script>
-    const apiUrl = "/api/v1/clients";
+<script th:inline="javascript">
+    const apiUrl = [[${@environment.getProperty('api.rest-api-prefix')}]] + "/" + [[${@environment.getProperty('api.rest-api-version')}]] + "/clients";
+    const emptyNameErrMsg = [[${clientNameError.message}]];
 </script>
 
 <nav th:replace="fragments/general.html :: menu(page='clients_ajax')">
+
 </nav>
 
 <div class="container">

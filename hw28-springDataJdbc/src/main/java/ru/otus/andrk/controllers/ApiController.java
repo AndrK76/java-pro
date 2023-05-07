@@ -33,6 +33,7 @@ public class ApiController {
 
     @GetMapping(value={"/clients/{id}","/clients/{id}/"})
     @Operation(summary = "Получение клиента по Id")
+    //TODO: стоит прописать возвращаемые результаты по статусам (200, ....)
     public Optional<Client> getClientById(
             @Parameter(description="Id клиента")
             @PathVariable("id") long id) {

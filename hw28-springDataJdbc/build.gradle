@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot'
+    id 'com.github.johnrengelman.shadow'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -46,3 +47,5 @@ tasks.withType(JavaCompile) {
         encoding = 'UTF-8'
     }
 }
+
+tasks.build.dependsOn tasks.shadowJar

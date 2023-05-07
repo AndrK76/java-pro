@@ -20,6 +20,7 @@ public class Phone implements Cloneable {
     private Long id;
     private String number;
 
+    //TODO: оставил старую модель, хотя нигде 2-стороннюю связь не использую, чисто для "попробовать"
     @JsonIgnore
     @Transient
     private Client client;

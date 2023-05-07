@@ -9,7 +9,6 @@ import ru.otus.andrk.domain.model.Client;
 import ru.otus.andrk.domain.model.Phone;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @ConditionalOnProperty(prefix = "services", name = "clientService", havingValue = "inMemory")
@@ -70,6 +69,6 @@ public class InMemoryClientServiceImpl implements ClientsService {
 
     @Override
     public List<Client> findAll() {
-        return clients.entrySet().stream().map(r -> r.getValue()).collect(Collectors.toList());
+        return new ArrayList<>(clients.values());
     }
 }

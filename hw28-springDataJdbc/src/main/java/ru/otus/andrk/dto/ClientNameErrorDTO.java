@@ -9,8 +9,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientNameError {
+public class ClientNameErrorDTO {
     private String message;
+
+    public static ClientNameErrorDTO emptyNameError(){
+        return new ClientNameErrorDTO("Имя клиента должно быть заполнено");
+    }
+    public static ClientNameErrorDTO noNameError(){
+        return new ClientNameErrorDTO();
+    }
 
     @Override
     public String toString() {
