@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+services:
+  #TODO: Переключение типа сервиса
+  #clientService: inmemory
+  clientService: jdbc
+
+api:
+  rest-api-prefix: /api
+  rest-api-version: v1
+  cors-allow-any: true
+
+logging:
+  level:
+    root: ERROR
+    ru.otus: DEBUG
+    #com.zaxxer.hikari.HikariConfig: DEBUG
+    org.flywaydb.core.internal.command: INFO
+    org.springframework.boot.web: INFO
+    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+  autoconfigure:
+    #TODO: возможно логичнее в main из конфига убрать
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5430/demoDB
+    username: usr
+    password: pwd
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui"

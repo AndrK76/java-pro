@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head th:include="fragments/general.html :: header(title='Управление')">
+    <title>Главная</title>
+</head>
+<body>
+
+<nav th:replace="fragments/general.html :: menu(page='clients')">
+</nav>
+
+<div class="container">
+
+    <div class="row">
+        <form method="post" th:with="hasPhone = (${newClient.phones} != null and ${newClient.phones.size()} &gt; 0)">
+            <div th:replace="fragments/general.html :: addform(
+                ${newClient.name}, ${newClient.address?.street},
+                ${hasPhone} ? ${newClient.phones[0].number},
+                ${clientNameError.message}
+            )"/>
+            <button type="submit" class="btn btn-dark">Добавить</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="row g-3 align-items-center mb-2 mt-3">
+            <h2>Все клиенты</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-hover caption-top">
+                    <caption th:text="'Всего: '+ ${clientList.size()}">Всего: 1</caption>
+                    <thead class="table-light">
+                    <tr class="col-header">
+                        <th>Id</th>
+                        <th>Имя</th>
+                        <th>Адрес</th>
+                        <th>Телефон</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="client : ${clientList}"
+                        th:with="hasPhone = (${client.phones} != null and ${client.phones.size()} &gt; 0)">
+                        <td th:text="${client.id}">1</td>
+                        <td th:text="${client.name}">&lt;Имя&gt;</td>
+                        <td th:text="${client.address?.street}">&lt;Адрес&gt;</td>
+                        <td th:text="${hasPhone} ? ${client.phones[0].number}">&lt;Телефон&gt;</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
