@@ -96,7 +96,7 @@ class SensorDataProcessorBufferedTest {
         assertThat(flushedData).hasSize(BUFFER_SIZE / 2);
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(100) //На 1000 "спецэффект" иногда ловится - описан в самом процессоре
     void shouldCorrectFlushDataFromManyThreads() {
         List<SensorData> sensorDataList = getSensorDataForTest(BUFFER_SIZE - 1);
         sensorDataList.forEach(sensorData -> processor.process(sensorData));

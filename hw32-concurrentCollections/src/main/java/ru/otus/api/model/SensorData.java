@@ -34,4 +34,24 @@ public class SensorData {
                 ", value=" + value +
                 '}';
     }
+
+    // Решил считать эквивалентными измерения из одной комнаты в одно время, значения не учитываю, ТЗ не противоречит :-)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SensorData that = (SensorData) o;
+
+        if (getMeasurementTime() != null ? !getMeasurementTime().equals(that.getMeasurementTime()) : that.getMeasurementTime() != null)
+            return false;
+        return getRoom() != null ? getRoom().equals(that.getRoom()) : that.getRoom() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getMeasurementTime() != null ? getMeasurementTime().hashCode() : 0;
+        result = 31 * result + (getRoom() != null ? getRoom().hashCode() : 0);
+        return result;
+    }
 }
