@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static ru.otus.andrk.utils.ConfigHandler.getConfig;
+import static ru.otus.andrk.utils.ThreadHandler.sleep;
 
 public class ClientGrpc implements Runnable {
     private static final Logger log = LoggerFactory.getLogger(ClientGrpc.class);
@@ -59,9 +60,7 @@ public class ClientGrpc implements Runnable {
             latch.countDown();
         });
 
-        executor.submit(() -> {
-            getServerValue();
-        });
+        executor.submit(this::getServerValue);
 
         latch.await();
         executor.shutdownNow();
@@ -95,7 +94,7 @@ public class ClientGrpc implements Runnable {
             serverValue.apply(currServerValue.value());
         }
 
-        log.info("Iteration: {}, Current value: {}, Formula: {}", iteration, ret, formula.toString());
+        log.info("Iteration: {}, Current value: {}, Formula: {}", iteration, ret, formula);
         return ret;
     }
 
@@ -119,27 +118,19 @@ public class ClientGrpc implements Runnable {
                 log.info("Server Value {}", currVal);
                 serverValue.setValue(currVal);
             });
+            log.warn("Received Last value from Server!");
         } catch (RuntimeException e) {
-            if (canContinue) {
-                log.error(e.getCause().getMessage());
-                canContinue = false;
-            }
+            processError(e);
         }
     }
 
-
-    private void sleep(int timeout) {
-        try {
-            Thread.currentThread().sleep(timeout);
-        } catch (InterruptedException e) {
-        }
-    }
 
     private void processError(Throwable e) {
-        if (e.getClass() == InterruptedException.class) {
+        if (e.getClass() == InterruptedException.class
+                || e.getCause() != null & InterruptedException.class.isAssignableFrom(e.getCause().getClass())) {
+            log.debug("interrupted");
         } else if (ConnectException.class.isAssignableFrom(e.getClass())
-                || e.getCause() != null
-                & ConnectException.class.isAssignableFrom(e.getCause().getClass())) {
+                || e.getCause() != null & ConnectException.class.isAssignableFrom(e.getCause().getClass())) {
             log.error("Don't Connect: {}", e.getCause().getMessage());
         } else {
             throw new RuntimeException(e);

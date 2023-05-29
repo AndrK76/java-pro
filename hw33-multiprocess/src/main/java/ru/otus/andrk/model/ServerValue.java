@@ -1,13 +1,7 @@
 package ru.otus.andrk.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ServerValue {
     private int value;
@@ -40,8 +34,7 @@ public class ServerValue {
     }
 
     public int value() {
-        var ret = value;
-        return ret;
+        return value;
     }
     public ServerValue getValue() {
         lock.lock();
