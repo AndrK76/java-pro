@@ -3,3 +3,6 @@ server:
 
 datastore:
   url: http://localhost:8081
+
+rooms:
+  magic_number: 1408
